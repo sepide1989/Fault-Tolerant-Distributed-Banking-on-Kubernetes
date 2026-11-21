@@ -1,0 +1,103 @@
+{
+  "created_utc": "2026-11-15T13:01:10.131651+00:00",
+  "status": "PASS",
+  "backups": {
+    "bank-a": {
+      "name": "bank-a-dr-after-cp-20261115",
+      "status": {
+        "backupId": "20261115T130111",
+        "backupName": "backup-20261115130111",
+        "beginLSN": "0/4808AAF0",
+        "beginWal": "000000090000000000000048",
+        "endLSN": "0/4808BF88",
+        "endWal": "000000090000000000000048",
+        "instanceID": {
+          "ContainerID": "containerd://00957389e60ef92908c1baac78667d1e677d3cc4b2e424e3b96c1b286db5e1db",
+          "podName": "bank-a-2",
+          "sessionID": "1c7d135f-9522-4de9-800e-9c140cd1f459"
+        },
+        "majorVersion": 17,
+        "method": "plugin",
+        "online": true,
+        "phase": "completed",
+        "pluginMetadata": {
+          "clusterUID": "c8388198-2533-4e1d-975c-c7ef865473a3",
+          "displayName": "BarmanCloudInstance",
+          "name": "barman-cloud.cloudnative-pg.io",
+          "pluginName": "barman-cloud.cloudnative-pg.io",
+          "timeline": "9",
+          "version": "0.16.0"
+        },
+        "reconciliationStartedAt": "2026-11-15T13:01:10Z",
+        "reconciliationTerminatedAt": "2026-11-15T13:01:20Z",
+        "startedAt": "2026-11-15T13:01:11Z",
+        "stoppedAt": "2026-11-15T13:01:16Z"
+      }
+    },
+    "bank-b": {
+      "name": "bank-b-dr-after-cp-20261115",
+      "status": {
+        "backupId": "20261115T130115",
+        "backupName": "backup-20261115130112",
+        "beginLSN": "0/3D006208",
+        "beginWal": "00000006000000000000003D",
+        "endLSN": "0/3D01EDF8",
+        "endWal": "00000006000000000000003D",
+        "instanceID": {
+          "ContainerID": "containerd://ea2b9ff5226c70e7172d0cc1f6b04ffe00e0beade7a6b2610ec6c9f5b5a139ca",
+          "podName": "bank-b-1",
+          "sessionID": "dc407400-ee93-4476-b59a-2ad89aeec239"
+        },
+        "majorVersion": 17,
+        "method": "plugin",
+        "online": true,
+        "phase": "completed",
+        "pluginMetadata": {
+          "clusterUID": "369dab91-0233-4a17-98f5-ec9c7dae400e",
+          "displayName": "BarmanCloudInstance",
+          "name": "barman-cloud.cloudnative-pg.io",
+          "pluginName": "barman-cloud.cloudnative-pg.io",
+          "timeline": "6",
+          "version": "0.16.0"
+        },
+        "reconciliationStartedAt": "2026-11-15T13:01:11Z",
+        "reconciliationTerminatedAt": "2026-11-15T13:01:26Z",
+        "startedAt": "2026-11-15T13:01:15Z",
+        "stoppedAt": "2026-11-15T13:01:20Z"
+      }
+    },
+    "bank-meta": {
+      "name": "bank-meta-dr-after-cp-20261115",
+      "status": {
+        "backupId": "20261115T130116",
+        "backupName": "backup-20261115130113",
+        "beginLSN": "0/48000028",
+        "beginWal": "000000060000000000000048",
+        "endLSN": "0/49000068",
+        "endWal": "000000060000000000000049",
+        "instanceID": {
+          "ContainerID": "containerd://03aaead267a1ceb7d399f6478af28ee6216880968757d60bbcf520ffe004d419",
+          "podName": "bank-meta-3",
+          "sessionID": "95024bd5-ac11-4f1e-b8a9-e5dfedcccd57"
+        },
+        "majorVersion": 17,
+        "method": "plugin",
+        "online": true,
+        "phase": "completed",
+        "pluginMetadata": {
+          "clusterUID": "6d455f42-554c-403b-a6b9-ccfecfebf43d",
+          "displayName": "BarmanCloudInstance",
+          "name": "barman-cloud.cloudnative-pg.io",
+          "pluginName": "barman-cloud.cloudnative-pg.io",
+          "timeline": "6",
+          "version": "0.16.0"
+        },
+        "reconciliationStartedAt": "2026-11-15T13:01:12Z",
+        "reconciliationTerminatedAt": "2026-11-15T13:01:26Z",
+        "startedAt": "2026-11-15T13:01:17Z",
+        "stoppedAt": "2026-11-15T13:01:22Z"
+      }
+    }
+  },
+  "kubeconfig_file": "isolated-kubeconfig.yaml"
+}

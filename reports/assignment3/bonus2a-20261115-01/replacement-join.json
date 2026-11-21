@@ -1,0 +1,10 @@
+{
+  "created_utc": "2026-11-15T12:27:13.695385+00:00",
+  "status": "PARTIAL",
+  "node_name": "banking-worker-replacement-1",
+  "new_node_uid": "7a03a351-a151-4e54-a923-8c372fad7040",
+  "new_node_system_uuid": "6d424d56-5892-554e-37ee-c1c0dff58689",
+  "output": "DRY RUN: clean replacement/version verified; kubeadm join not run\n[preflight] Running pre-flight checks\n[preflight] Reading configuration from the \"kubeadm-config\" ConfigMap in namespace \"kube-system\"...\n[preflight] Use 'kubeadm init phase upload-config kubeadm --config your-config-file' to re-upload it.\n[kubelet-start] Writing kubelet configuration to file \"/var/lib/kubelet/instance-config.yaml\"\n[patches] Applied patch of type \"application/strategic-merge-patch+json\" to target \"kubeletconfiguration\"\n[kubelet-start] Writing kubelet configuration to file \"/var/lib/kubelet/config.yaml\"\n[kubelet-start] Writing kubelet environment file with flags to file \"/var/lib/kubelet/kubeadm-flags.env\"\n[kubelet-start] Starting the kubelet\n[kubelet-check] Waiting for a healthy kubelet at http://127.0.0.1:10248/healthz. This can take up to 4m0s\n[kubelet-check] The kubelet is healthy after 542.129892ms\n[kubelet-start] Waiting for the kubelet to perform the TLS Bootstrap\n\nThis node has joined the cluster:\n* Certificate signing request was sent to apiserver and a response was received.\n* The Kubelet was informed of the new secure connection details.\n\nRun 'kubectl get nodes' on the control-plane to see this node join the cluster.\n\nPARTIAL: worker joined. From the restored control plane label banking-worker=true; verify new independent local-path PVCs, replication, and full client-ledger audit.",
+  "note": "Fresh worker joined; old local PV bindings, full redundancy and ledger audit still require verification.",
+  "kubeconfig_file": "isolated-kubeconfig.yaml"
+}

@@ -1,0 +1,13 @@
+{
+  "created_utc": "2026-11-15T12:33:58.453286+00:00",
+  "status": "PARTIAL",
+  "retained_pvc": "bank-meta-1",
+  "pvc_uid": "d0b905e4-4510-4856-b4b3-1691067b1eec",
+  "remaining_instances": [
+    "bank-meta-2",
+    "bank-meta-3",
+    "bank-meta-4"
+  ],
+  "primary": "bank-meta-2",
+  "kubeconfig_file": "isolated-kubeconfig.yaml"
+}

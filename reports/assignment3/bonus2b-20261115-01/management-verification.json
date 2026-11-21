@@ -1,0 +1,330 @@
+{
+  "created_utc": "2026-11-15T13:00:43.488251+00:00",
+  "status": "PASS",
+  "checks": {
+    "same_banking_namespace": true,
+    "same_banking_cluster_uids": true,
+    "same_active_pvc_uids": true,
+    "same_node_resource_uids": true,
+    "all_three_nodes_ready": true,
+    "new_job_scheduled_and_executed": true,
+    "proof_job_has_no_pvc": true
+  },
+  "job": {
+    "apiVersion": "batch/v1",
+    "kind": "Job",
+    "metadata": {
+      "creationTimestamp": "2026-11-15T13:00:43Z",
+      "generation": 1,
+      "labels": {
+        "batch.kubernetes.io/controller-uid": "e5944317-2f52-46ae-9116-5b0e533a893c",
+        "batch.kubernetes.io/job-name": "dr-management-proof-20261115-01",
+        "controller-uid": "e5944317-2f52-46ae-9116-5b0e533a893c",
+        "job-name": "dr-management-proof-20261115-01"
+      },
+      "name": "dr-management-proof-20261115-01",
+      "namespace": "banking",
+      "resourceVersion": "1000276793",
+      "uid": "e5944317-2f52-46ae-9116-5b0e533a893c"
+    },
+    "spec": {
+      "activeDeadlineSeconds": 180,
+      "backoffLimit": 0,
+      "completionMode": "NonIndexed",
+      "completions": 1,
+      "manualSelector": false,
+      "parallelism": 1,
+      "podReplacementPolicy": "TerminatingOrFailed",
+      "selector": {
+        "matchLabels": {
+          "batch.kubernetes.io/controller-uid": "e5944317-2f52-46ae-9116-5b0e533a893c"
+        }
+      },
+      "suspend": false,
+      "template": {
+        "metadata": {
+          "labels": {
+            "batch.kubernetes.io/controller-uid": "e5944317-2f52-46ae-9116-5b0e533a893c",
+            "batch.kubernetes.io/job-name": "dr-management-proof-20261115-01",
+            "controller-uid": "e5944317-2f52-46ae-9116-5b0e533a893c",
+            "job-name": "dr-management-proof-20261115-01"
+          }
+        },
+        "spec": {
+          "containers": [
+            {
+              "command": [
+                "/bin/sh",
+                "-c",
+                "printf \"management-restored\\n\"; hostname"
+              ],
+              "image": "ghcr.io/cloudnative-pg/postgresql:17-minimal-trixie",
+              "imagePullPolicy": "IfNotPresent",
+              "name": "proof",
+              "resources": {},
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File"
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "nodeSelector": {
+            "banking-worker": "true"
+          },
+          "restartPolicy": "Never",
+          "schedulerName": "default-scheduler",
+          "securityContext": {},
+          "terminationGracePeriodSeconds": 30
+        }
+      }
+    },
+    "status": {
+      "completionTime": "2026-11-15T13:00:47Z",
+      "conditions": [
+        {
+          "lastProbeTime": "2026-11-15T13:00:47Z",
+          "lastTransitionTime": "2026-11-15T13:00:47Z",
+          "message": "Reached expected number of succeeded pods",
+          "reason": "CompletionsReached",
+          "status": "True",
+          "type": "SuccessCriteriaMet"
+        },
+        {
+          "lastProbeTime": "2026-11-15T13:00:47Z",
+          "lastTransitionTime": "2026-11-15T13:00:47Z",
+          "message": "Reached expected number of succeeded pods",
+          "reason": "CompletionsReached",
+          "status": "True",
+          "type": "Complete"
+        }
+      ],
+      "ready": 0,
+      "startTime": "2026-11-15T13:00:43Z",
+      "succeeded": 1,
+      "terminating": 0,
+      "uncountedTerminatedPods": {}
+    }
+  },
+  "pod": {
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "metadata": {
+      "creationTimestamp": "2026-11-15T13:00:43Z",
+      "generateName": "dr-management-proof-20261115-01-",
+      "generation": 1,
+      "labels": {
+        "batch.kubernetes.io/controller-uid": "e5944317-2f52-46ae-9116-5b0e533a893c",
+        "batch.kubernetes.io/job-name": "dr-management-proof-20261115-01",
+        "controller-uid": "e5944317-2f52-46ae-9116-5b0e533a893c",
+        "job-name": "dr-management-proof-20261115-01"
+      },
+      "name": "dr-management-proof-20261115-01-sz9rc",
+      "namespace": "banking",
+      "ownerReferences": [
+        {
+          "apiVersion": "batch/v1",
+          "blockOwnerDeletion": true,
+          "controller": true,
+          "kind": "Job",
+          "name": "dr-management-proof-20261115-01",
+          "uid": "e5944317-2f52-46ae-9116-5b0e533a893c"
+        }
+      ],
+      "resourceVersion": "1000276792",
+      "uid": "1f601c22-ad91-4bfe-9301-c44f3324d388"
+    },
+    "spec": {
+      "containers": [
+        {
+          "command": [
+            "/bin/sh",
+            "-c",
+            "printf \"management-restored\\n\"; hostname"
+          ],
+          "image": "ghcr.io/cloudnative-pg/postgresql:17-minimal-trixie",
+          "imagePullPolicy": "IfNotPresent",
+          "name": "proof",
+          "resources": {},
+          "terminationMessagePath": "/dev/termination-log",
+          "terminationMessagePolicy": "File",
+          "volumeMounts": [
+            {
+              "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+              "name": "kube-api-access-4c7gt",
+              "readOnly": true
+            }
+          ]
+        }
+      ],
+      "dnsPolicy": "ClusterFirst",
+      "enableServiceLinks": true,
+      "nodeName": "banking-worker-replacement-1",
+      "nodeSelector": {
+        "banking-worker": "true"
+      },
+      "preemptionPolicy": "PreemptLowerPriority",
+      "priority": 0,
+      "restartPolicy": "Never",
+      "schedulerName": "default-scheduler",
+      "securityContext": {},
+      "serviceAccount": "default",
+      "serviceAccountName": "default",
+      "terminationGracePeriodSeconds": 30,
+      "tolerations": [
+        {
+          "effect": "NoExecute",
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "tolerationSeconds": 300
+        },
+        {
+          "effect": "NoExecute",
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "tolerationSeconds": 300
+        }
+      ],
+      "volumes": [
+        {
+          "name": "kube-api-access-4c7gt",
+          "projected": {
+            "defaultMode": 420,
+            "sources": [
+              {
+                "serviceAccountToken": {
+                  "expirationSeconds": 3607,
+                  "path": "token"
+                }
+              },
+              {
+                "configMap": {
+                  "items": [
+                    {
+                      "key": "ca.crt",
+                      "path": "ca.crt"
+                    }
+                  ],
+                  "name": "kube-root-ca.crt"
+                }
+              },
+              {
+                "downwardAPI": {
+                  "items": [
+                    {
+                      "fieldRef": {
+                        "apiVersion": "v1",
+                        "fieldPath": "metadata.namespace"
+                      },
+                      "path": "namespace"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "status": {
+      "conditions": [
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-15T13:00:46Z",
+          "observedGeneration": 1,
+          "status": "False",
+          "type": "PodReadyToStartContainers"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-15T13:00:43Z",
+          "observedGeneration": 1,
+          "reason": "PodCompleted",
+          "status": "True",
+          "type": "Initialized"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-15T13:00:45Z",
+          "observedGeneration": 1,
+          "reason": "PodCompleted",
+          "status": "False",
+          "type": "Ready"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-15T13:00:45Z",
+          "observedGeneration": 1,
+          "reason": "PodCompleted",
+          "status": "False",
+          "type": "ContainersReady"
+        },
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-15T13:00:43Z",
+          "observedGeneration": 1,
+          "status": "True",
+          "type": "PodScheduled"
+        }
+      ],
+      "containerStatuses": [
+        {
+          "containerID": "containerd://b9ec87a54ed0673e7098554e7a225c592a87c7aeb2ff9fee4ac8e185bb4ec281",
+          "image": "ghcr.io/cloudnative-pg/postgresql:17-minimal-trixie",
+          "imageID": "ghcr.io/cloudnative-pg/postgresql@sha256:eb06deb9dab3706c9dc8dce4b24677f0b55a8887918cd26d2a3cc59b2c12c3ee",
+          "lastState": {},
+          "name": "proof",
+          "ready": false,
+          "resources": {},
+          "restartCount": 0,
+          "started": false,
+          "state": {
+            "terminated": {
+              "containerID": "containerd://b9ec87a54ed0673e7098554e7a225c592a87c7aeb2ff9fee4ac8e185bb4ec281",
+              "exitCode": 0,
+              "finishedAt": "2026-11-15T13:00:44Z",
+              "reason": "Completed",
+              "startedAt": "2026-11-15T13:00:44Z"
+            }
+          },
+          "user": {
+            "linux": {
+              "gid": 102,
+              "supplementalGroups": [
+                101,
+                102
+              ],
+              "uid": 26
+            }
+          },
+          "volumeMounts": [
+            {
+              "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+              "name": "kube-api-access-4c7gt",
+              "readOnly": true,
+              "recursiveReadOnly": "Disabled"
+            }
+          ]
+        }
+      ],
+      "hostIP": "192.168.43.132",
+      "hostIPs": [
+        {
+          "ip": "192.168.43.132"
+        }
+      ],
+      "observedGeneration": 1,
+      "phase": "Succeeded",
+      "podIP": "10.244.12.162",
+      "podIPs": [
+        {
+          "ip": "10.244.12.162"
+        }
+      ],
+      "qosClass": "BestEffort",
+      "resources": {},
+      "startTime": "2026-11-15T13:00:43Z"
+    }
+  },
+  "output": "management-restored\ndr-management-proof-20261115-01-sz9rc",
+  "scope": "Original namespace/Cluster/PVC/Node resources retained; a fresh stateless job was admitted, scheduled and executed after management restore. Banking ledger audit is separate.",
+  "kubeconfig_file": "isolated-kubeconfig.yaml"
+}

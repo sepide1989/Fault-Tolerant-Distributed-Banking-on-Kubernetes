@@ -1,0 +1,15 @@
+spec:
+  template:
+    spec:
+      nodeSelector:
+        banking-worker: "true"
+      topologySpreadConstraints:
+      - maxSkew: 1
+        minDomains: 2
+        matchLabelKeys:
+        - pod-template-hash
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app: bank-b

@@ -1,0 +1,57 @@
+# Replace REPLACE_BUCKET/REPLACE_S3_ENDPOINT; external object storage MUST survive worker and control-plane loss.
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: bank-a-store
+  namespace: banking
+spec:
+  configuration:
+    destinationPath: s3://REPLACE_BUCKET/bank-a/
+    endpointURL: REPLACE_S3_ENDPOINT
+    s3Credentials:
+      accessKeyId:
+        name: bank-s3-creds
+        key: ACCESS_KEY_ID
+      secretAccessKey:
+        name: bank-s3-creds
+        key: ACCESS_SECRET_KEY
+    wal:
+      compression: gzip
+---
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: bank-b-store
+  namespace: banking
+spec:
+  configuration:
+    destinationPath: s3://REPLACE_BUCKET/bank-b/
+    endpointURL: REPLACE_S3_ENDPOINT
+    s3Credentials:
+      accessKeyId:
+        name: bank-s3-creds
+        key: ACCESS_KEY_ID
+      secretAccessKey:
+        name: bank-s3-creds
+        key: ACCESS_SECRET_KEY
+    wal:
+      compression: gzip
+---
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: bank-meta-store
+  namespace: banking
+spec:
+  configuration:
+    destinationPath: s3://REPLACE_BUCKET/bank-meta/
+    endpointURL: REPLACE_S3_ENDPOINT
+    s3Credentials:
+      accessKeyId:
+        name: bank-s3-creds
+        key: ACCESS_KEY_ID
+      secretAccessKey:
+        name: bank-s3-creds
+        key: ACCESS_SECRET_KEY
+    wal:
+      compression: gzip

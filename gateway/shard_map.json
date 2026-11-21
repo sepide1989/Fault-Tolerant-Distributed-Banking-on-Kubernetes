@@ -1,0 +1,8 @@
+{
+  "strategy": "account_numeric_range",
+  "version": 1,
+  "ranges": [
+    {"shard": "A", "start": 1, "end": 1000},
+    {"shard": "B", "start": 1001, "end": 2000}
+  ]
+}

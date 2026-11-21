@@ -1,0 +1,63 @@
+# Strategic merge Deployment patches. Do not kubectl apply as whole Deployments.
+# python scripts/apply_bonus_placement.py --apply uses kubectl patch.
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: bank-a, namespace: banking}
+spec:
+  template:
+    spec:
+      nodeSelector: {banking-worker: 'true'}
+      topologySpreadConstraints:
+      - maxSkew: 1
+        minDomains: 2
+        matchLabelKeys: [pod-template-hash]
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector: {matchLabels: {app: bank-a}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: bank-b, namespace: banking}
+spec:
+  template:
+    spec:
+      nodeSelector: {banking-worker: 'true'}
+      topologySpreadConstraints:
+      - maxSkew: 1
+        minDomains: 2
+        matchLabelKeys: [pod-template-hash]
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector: {matchLabels: {app: bank-b}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: gateway, namespace: banking}
+spec:
+  template:
+    spec:
+      nodeSelector: {banking-worker: 'true'}
+      topologySpreadConstraints:
+      - maxSkew: 1
+        minDomains: 2
+        matchLabelKeys: [pod-template-hash]
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector: {matchLabels: {app: gateway}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: coordinator-recovery, namespace: banking}
+spec:
+  replicas: 2
+  strategy: {type: RollingUpdate, rollingUpdate: {maxSurge: 1, maxUnavailable: 0}}
+  template:
+    spec:
+      nodeSelector: {banking-worker: 'true'}
+      topologySpreadConstraints:
+      - maxSkew: 1
+        minDomains: 2
+        matchLabelKeys: [pod-template-hash]
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector: {matchLabels: {app: coordinator-recovery}}

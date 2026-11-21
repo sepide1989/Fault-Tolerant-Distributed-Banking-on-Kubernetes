@@ -1,0 +1,36 @@
+# Optional compatibility: original Assignment 2 live B -> C resharing.
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: bank-c
+  namespace: banking
+spec:
+  instances: 2
+  imageName: ghcr.io/cloudnative-pg/postgresql:17-minimal-trixie
+  bootstrap:
+    initdb:
+      database: bank
+      owner: bank
+      secret:
+        name: bank-db-credentials
+  storage:
+    size: 2Gi
+  affinity:
+    enablePodAntiAffinity: true
+    podAntiAffinityType: preferred
+    topologyKey: kubernetes.io/hostname
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: '1'
+      memory: 768Mi
+  postgresql:
+    parameters:
+      max_prepared_transactions: '100'
+      max_connections: '150'
+    synchronous:
+      method: any
+      number: 1
+      dataDurability: required

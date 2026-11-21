@@ -1,0 +1,626 @@
+{
+  "created_utc": "2026-11-15T14:05:02.483310+00:00",
+  "status": "PASS",
+  "gateway": "http://192.168.43.128:30080",
+  "http_status": 200,
+  "body": {
+    "ok": true,
+    "service": "gateway"
+  },
+  "postgres_versions": {
+    "bank-a": "17.11 (Debian 17.11-1.pgdg13+2)",
+    "bank-b": "17.11 (Debian 17.11-1.pgdg13+2)",
+    "bank-meta": "17.11 (Debian 17.11-1.pgdg13+2)"
+  },
+  "deployments": {
+    "apiVersion": "v1",
+    "items": [
+      {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "metadata": {
+          "creationTimestamp": "2026-11-12T19:53:35Z",
+          "generation": 30,
+          "name": "bank-a",
+          "namespace": "banking",
+          "resourceVersion": "190933",
+          "uid": "4e84fd8e-5a8f-4ad6-bda3-0cfb065f443f"
+        },
+        "spec": {
+          "progressDeadlineSeconds": 600,
+          "replicas": 2,
+          "revisionHistoryLimit": 5,
+          "selector": {
+            "matchLabels": {
+              "app": "bank-a"
+            }
+          },
+          "strategy": {
+            "rollingUpdate": {
+              "maxSurge": 1,
+              "maxUnavailable": 0
+            },
+            "type": "RollingUpdate"
+          },
+          "template": {
+            "metadata": {
+              "labels": {
+                "app": "bank-a"
+              }
+            },
+            "spec": {
+              "containers": [
+                {
+                  "command": [
+                    "python",
+                    "-m",
+                    "gateway.entrypoint_k8s"
+                  ],
+                  "image": "banking-app:v3-recovery-20261115-3",
+                  "imagePullPolicy": "IfNotPresent",
+                  "lifecycle": {
+                    "preStop": {
+                      "exec": {
+                        "command": [
+                          "/bin/sh",
+                          "-c",
+                          "sleep 8"
+                        ]
+                      }
+                    }
+                  },
+                  "livenessProbe": {
+                    "failureThreshold": 3,
+                    "httpGet": {
+                      "path": "/live",
+                      "port": 8000,
+                      "scheme": "HTTP"
+                    },
+                    "periodSeconds": 10,
+                    "successThreshold": 1,
+                    "timeoutSeconds": 1
+                  },
+                  "name": "bank",
+                  "ports": [
+                    {
+                      "containerPort": 8000,
+                      "name": "http",
+                      "protocol": "TCP"
+                    }
+                  ],
+                  "readinessProbe": {
+                    "failureThreshold": 2,
+                    "httpGet": {
+                      "path": "/health",
+                      "port": 8000,
+                      "scheme": "HTTP"
+                    },
+                    "periodSeconds": 3,
+                    "successThreshold": 1,
+                    "timeoutSeconds": 1
+                  },
+                  "resources": {
+                    "limits": {
+                      "cpu": "500m",
+                      "memory": "256Mi"
+                    },
+                    "requests": {
+                      "cpu": "50m",
+                      "memory": "96Mi"
+                    }
+                  },
+                  "startupProbe": {
+                    "failureThreshold": 30,
+                    "httpGet": {
+                      "path": "/live",
+                      "port": 8000,
+                      "scheme": "HTTP"
+                    },
+                    "periodSeconds": 3,
+                    "successThreshold": 1,
+                    "timeoutSeconds": 1
+                  },
+                  "terminationMessagePath": "/dev/termination-log",
+                  "terminationMessagePolicy": "File"
+                }
+              ],
+              "dnsPolicy": "ClusterFirst",
+              "nodeSelector": {
+                "banking-worker": "true"
+              },
+              "restartPolicy": "Always",
+              "schedulerName": "default-scheduler",
+              "securityContext": {},
+              "terminationGracePeriodSeconds": 65,
+              "topologySpreadConstraints": [
+                {
+                  "labelSelector": {
+                    "matchLabels": {
+                      "app": "bank-a"
+                    }
+                  },
+                  "matchLabelKeys": [
+                    "pod-template-hash"
+                  ],
+                  "maxSkew": 1,
+                  "minDomains": 2,
+                  "topologyKey": "kubernetes.io/hostname",
+                  "whenUnsatisfiable": "DoNotSchedule"
+                }
+              ]
+            }
+          }
+        },
+        "status": {
+          "availableReplicas": 2,
+          "conditions": [
+            {
+              "lastTransitionTime": "2026-11-12T19:53:35Z",
+              "lastUpdateTime": "2026-11-15T13:27:25Z",
+              "message": "ReplicaSet \"bank-a-7fdbb868d6\" has successfully progressed.",
+              "reason": "NewReplicaSetAvailable",
+              "status": "True",
+              "type": "Progressing"
+            },
+            {
+              "lastTransitionTime": "2026-11-15T13:27:55Z",
+              "lastUpdateTime": "2026-11-15T13:27:55Z",
+              "message": "Deployment has minimum availability.",
+              "reason": "MinimumReplicasAvailable",
+              "status": "True",
+              "type": "Available"
+            }
+          ],
+          "observedGeneration": 30,
+          "readyReplicas": 2,
+          "replicas": 2,
+          "terminatingReplicas": 0,
+          "updatedReplicas": 2
+        }
+      },
+      {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "metadata": {
+          "creationTimestamp": "2026-11-12T19:53:35Z",
+          "generation": 34,
+          "name": "bank-b",
+          "namespace": "banking",
+          "resourceVersion": "191157",
+          "uid": "b1f52c2d-a242-4289-9369-f0771de3e223"
+        },
+        "spec": {
+          "progressDeadlineSeconds": 600,
+          "replicas": 2,
+          "revisionHistoryLimit": 5,
+          "selector": {
+            "matchLabels": {
+              "app": "bank-b"
+            }
+          },
+          "strategy": {
+            "rollingUpdate": {
+              "maxSurge": 1,
+              "maxUnavailable": 0
+            },
+            "type": "RollingUpdate"
+          },
+          "template": {
+            "metadata": {
+              "labels": {
+                "app": "bank-b"
+              }
+            },
+            "spec": {
+              "containers": [
+                {
+                  "command": [
+                    "python",
+                    "-m",
+                    "gateway.entrypoint_k8s"
+                  ],
+                  "image": "banking-app:v3-recovery-20261115-3",
+                  "imagePullPolicy": "IfNotPresent",
+                  "lifecycle": {
+                    "preStop": {
+                      "exec": {
+                        "command": [
+                          "/bin/sh",
+                          "-c",
+                          "sleep 8"
+                        ]
+                      }
+                    }
+                  },
+                  "livenessProbe": {
+                    "failureThreshold": 3,
+                    "httpGet": {
+                      "path": "/live",
+                      "port": 8000,
+                      "scheme": "HTTP"
+                    },
+                    "periodSeconds": 10,
+                    "successThreshold": 1,
+                    "timeoutSeconds": 1
+                  },
+                  "name": "bank",
+                  "ports": [
+                    {
+                      "containerPort": 8000,
+                      "name": "http",
+                      "protocol": "TCP"
+                    }
+                  ],
+                  "readinessProbe": {
+                    "failureThreshold": 2,
+                    "httpGet": {
+                      "path": "/health",
+                      "port": 8000,
+                      "scheme": "HTTP"
+                    },
+                    "periodSeconds": 3,
+                    "successThreshold": 1,
+                    "timeoutSeconds": 1
+                  },
+                  "resources": {
+                    "limits": {
+                      "cpu": "500m",
+                      "memory": "256Mi"
+                    },
+                    "requests": {
+                      "cpu": "50m",
+                      "memory": "96Mi"
+                    }
+                  },
+                  "startupProbe": {
+                    "failureThreshold": 30,
+                    "httpGet": {
+                      "path": "/live",
+                      "port": 8000,
+                      "scheme": "HTTP"
+                    },
+                    "periodSeconds": 3,
+                    "successThreshold": 1,
+                    "timeoutSeconds": 1
+                  },
+                  "terminationMessagePath": "/dev/termination-log",
+                  "terminationMessagePolicy": "File"
+                }
+              ],
+              "dnsPolicy": "ClusterFirst",
+              "nodeSelector": {
+                "banking-worker": "true"
+              },
+              "restartPolicy": "Always",
+              "schedulerName": "default-scheduler",
+              "securityContext": {},
+              "terminationGracePeriodSeconds": 65,
+              "topologySpreadConstraints": [
+                {
+                  "labelSelector": {
+                    "matchLabels": {
+                      "app": "bank-b"
+                    }
+                  },
+                  "matchLabelKeys": [
+                    "pod-template-hash"
+                  ],
+                  "maxSkew": 1,
+                  "minDomains": 2,
+                  "topologyKey": "kubernetes.io/hostname",
+                  "whenUnsatisfiable": "DoNotSchedule"
+                }
+              ]
+            }
+          }
+        },
+        "status": {
+          "availableReplicas": 2,
+          "conditions": [
+            {
+              "lastTransitionTime": "2026-11-12T19:53:35Z",
+              "lastUpdateTime": "2026-11-15T13:27:34Z",
+              "message": "ReplicaSet \"bank-b-6c5847998f\" has successfully progressed.",
+              "reason": "NewReplicaSetAvailable",
+              "status": "True",
+              "type": "Progressing"
+            },
+            {
+              "lastTransitionTime": "2026-11-15T13:28:18Z",
+              "lastUpdateTime": "2026-11-15T13:28:18Z",
+              "message": "Deployment has minimum availability.",
+              "reason": "MinimumReplicasAvailable",
+              "status": "True",
+              "type": "Available"
+            }
+          ],
+          "observedGeneration": 34,
+          "readyReplicas": 2,
+          "replicas": 2,
+          "terminatingReplicas": 0,
+          "updatedReplicas": 2
+        }
+      },
+      {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "metadata": {
+          "creationTimestamp": "2026-11-12T19:53:35Z",
+          "generation": 6,
+          "name": "coordinator-recovery",
+          "namespace": "banking",
+          "resourceVersion": "191041",
+          "uid": "9aeda002-3be3-4cba-aa22-b214b1b6f406"
+        },
+        "spec": {
+          "progressDeadlineSeconds": 600,
+          "replicas": 2,
+          "revisionHistoryLimit": 10,
+          "selector": {
+            "matchLabels": {
+              "app": "coordinator-recovery"
+            }
+          },
+          "strategy": {
+            "rollingUpdate": {
+              "maxSurge": 1,
+              "maxUnavailable": 0
+            },
+            "type": "RollingUpdate"
+          },
+          "template": {
+            "metadata": {
+              "labels": {
+                "app": "coordinator-recovery"
+              }
+            },
+            "spec": {
+              "containers": [
+                {
+                  "command": [
+                    "python",
+                    "-m",
+                    "gateway.entrypoint_k8s"
+                  ],
+                  "image": "banking-app:v3-recovery-20261115-3",
+                  "imagePullPolicy": "IfNotPresent",
+                  "name": "recovery",
+                  "resources": {
+                    "limits": {
+                      "cpu": "250m",
+                      "memory": "192Mi"
+                    },
+                    "requests": {
+                      "cpu": "30m",
+                      "memory": "64Mi"
+                    }
+                  },
+                  "terminationMessagePath": "/dev/termination-log",
+                  "terminationMessagePolicy": "File"
+                }
+              ],
+              "dnsPolicy": "ClusterFirst",
+              "nodeSelector": {
+                "banking-worker": "true"
+              },
+              "restartPolicy": "Always",
+              "schedulerName": "default-scheduler",
+              "securityContext": {},
+              "terminationGracePeriodSeconds": 30,
+              "topologySpreadConstraints": [
+                {
+                  "labelSelector": {
+                    "matchLabels": {
+                      "app": "coordinator-recovery"
+                    }
+                  },
+                  "matchLabelKeys": [
+                    "pod-template-hash"
+                  ],
+                  "maxSkew": 1,
+                  "minDomains": 2,
+                  "topologyKey": "kubernetes.io/hostname",
+                  "whenUnsatisfiable": "DoNotSchedule"
+                }
+              ]
+            }
+          }
+        },
+        "status": {
+          "availableReplicas": 2,
+          "conditions": [
+            {
+              "lastTransitionTime": "2026-11-15T13:24:00Z",
+              "lastUpdateTime": "2026-11-15T13:24:00Z",
+              "message": "Deployment has minimum availability.",
+              "reason": "MinimumReplicasAvailable",
+              "status": "True",
+              "type": "Available"
+            },
+            {
+              "lastTransitionTime": "2026-11-12T19:53:35Z",
+              "lastUpdateTime": "2026-11-15T13:27:37Z",
+              "message": "ReplicaSet \"coordinator-recovery-b56474c86\" has successfully progressed.",
+              "reason": "NewReplicaSetAvailable",
+              "status": "True",
+              "type": "Progressing"
+            }
+          ],
+          "observedGeneration": 6,
+          "readyReplicas": 2,
+          "replicas": 2,
+          "terminatingReplicas": 0,
+          "updatedReplicas": 2
+        }
+      },
+      {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "metadata": {
+          "creationTimestamp": "2026-11-12T19:53:35Z",
+          "generation": 18,
+          "name": "gateway",
+          "namespace": "banking",
+          "resourceVersion": "190784",
+          "uid": "711ef542-f7f2-4013-8813-4dd69a5819fb"
+        },
+        "spec": {
+          "progressDeadlineSeconds": 600,
+          "replicas": 2,
+          "revisionHistoryLimit": 5,
+          "selector": {
+            "matchLabels": {
+              "app": "gateway"
+            }
+          },
+          "strategy": {
+            "rollingUpdate": {
+              "maxSurge": 1,
+              "maxUnavailable": 0
+            },
+            "type": "RollingUpdate"
+          },
+          "template": {
+            "metadata": {
+              "labels": {
+                "app": "gateway"
+              }
+            },
+            "spec": {
+              "containers": [
+                {
+                  "command": [
+                    "python",
+                    "-m",
+                    "gateway.entrypoint_k8s"
+                  ],
+                  "image": "banking-app:v3-recovery-20261115-3",
+                  "imagePullPolicy": "IfNotPresent",
+                  "lifecycle": {
+                    "preStop": {
+                      "exec": {
+                        "command": [
+                          "/bin/sh",
+                          "-c",
+                          "sleep 8"
+                        ]
+                      }
+                    }
+                  },
+                  "livenessProbe": {
+                    "failureThreshold": 3,
+                    "httpGet": {
+                      "path": "/health",
+                      "port": 8000,
+                      "scheme": "HTTP"
+                    },
+                    "periodSeconds": 10,
+                    "successThreshold": 1,
+                    "timeoutSeconds": 1
+                  },
+                  "name": "gateway",
+                  "ports": [
+                    {
+                      "containerPort": 8000,
+                      "name": "http",
+                      "protocol": "TCP"
+                    }
+                  ],
+                  "readinessProbe": {
+                    "failureThreshold": 2,
+                    "httpGet": {
+                      "path": "/ready",
+                      "port": 8000,
+                      "scheme": "HTTP"
+                    },
+                    "periodSeconds": 4,
+                    "successThreshold": 1,
+                    "timeoutSeconds": 1
+                  },
+                  "resources": {
+                    "limits": {
+                      "cpu": "500m",
+                      "memory": "320Mi"
+                    },
+                    "requests": {
+                      "cpu": "60m",
+                      "memory": "128Mi"
+                    }
+                  },
+                  "startupProbe": {
+                    "failureThreshold": 30,
+                    "httpGet": {
+                      "path": "/health",
+                      "port": 8000,
+                      "scheme": "HTTP"
+                    },
+                    "periodSeconds": 3,
+                    "successThreshold": 1,
+                    "timeoutSeconds": 1
+                  },
+                  "terminationMessagePath": "/dev/termination-log",
+                  "terminationMessagePolicy": "File"
+                }
+              ],
+              "dnsPolicy": "ClusterFirst",
+              "nodeSelector": {
+                "banking-worker": "true"
+              },
+              "restartPolicy": "Always",
+              "schedulerName": "default-scheduler",
+              "securityContext": {},
+              "terminationGracePeriodSeconds": 65,
+              "topologySpreadConstraints": [
+                {
+                  "labelSelector": {
+                    "matchLabels": {
+                      "app": "gateway"
+                    }
+                  },
+                  "matchLabelKeys": [
+                    "pod-template-hash"
+                  ],
+                  "maxSkew": 1,
+                  "minDomains": 2,
+                  "topologyKey": "kubernetes.io/hostname",
+                  "whenUnsatisfiable": "DoNotSchedule"
+                }
+              ]
+            }
+          }
+        },
+        "status": {
+          "availableReplicas": 2,
+          "conditions": [
+            {
+              "lastTransitionTime": "2026-11-12T19:53:35Z",
+              "lastUpdateTime": "2026-11-15T13:27:37Z",
+              "message": "ReplicaSet \"gateway-8559476d46\" has successfully progressed.",
+              "reason": "NewReplicaSetAvailable",
+              "status": "True",
+              "type": "Progressing"
+            },
+            {
+              "lastTransitionTime": "2026-11-15T13:27:42Z",
+              "lastUpdateTime": "2026-11-15T13:27:42Z",
+              "message": "Deployment has minimum availability.",
+              "reason": "MinimumReplicasAvailable",
+              "status": "True",
+              "type": "Available"
+            }
+          ],
+          "observedGeneration": 18,
+          "readyReplicas": 2,
+          "replicas": 2,
+          "terminatingReplicas": 0,
+          "updatedReplicas": 2
+        }
+      }
+    ],
+    "kind": "List",
+    "metadata": {
+      "resourceVersion": ""
+    }
+  },
+  "kubeconfig_file": "banking-vm.yaml"
+}

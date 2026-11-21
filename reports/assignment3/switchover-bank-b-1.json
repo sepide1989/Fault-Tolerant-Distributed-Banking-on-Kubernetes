@@ -1,0 +1,951 @@
+{
+  "created_utc": "2026-11-15T13:28:27.904723+00:00",
+  "status": "PASS",
+  "before": {
+    "spec": {
+      "affinity": {
+        "enablePodAntiAffinity": true,
+        "nodeSelector": {
+          "banking-worker": "true"
+        },
+        "podAntiAffinityType": "preferred",
+        "topologyKey": "kubernetes.io/hostname"
+      },
+      "bootstrap": {
+        "initdb": {
+          "database": "bank",
+          "encoding": "UTF8",
+          "localeCType": "C",
+          "localeCollate": "C",
+          "owner": "bank",
+          "secret": {
+            "name": "bank-db-credentials"
+          }
+        }
+      },
+      "enablePDB": true,
+      "enableSuperuserAccess": false,
+      "failoverDelay": 0,
+      "imageName": "ghcr.io/cloudnative-pg/postgresql:17-minimal-trixie",
+      "instances": 3,
+      "logLevel": "info",
+      "maxSyncReplicas": 0,
+      "minSyncReplicas": 0,
+      "monitoring": {
+        "customQueriesConfigMap": [
+          {
+            "key": "queries",
+            "name": "cnpg-default-monitoring"
+          }
+        ],
+        "disableDefaultQueries": false,
+        "enablePodMonitor": false
+      },
+      "plugins": [
+        {
+          "enabled": true,
+          "isWALArchiver": true,
+          "name": "barman-cloud.cloudnative-pg.io",
+          "parameters": {
+            "barmanObjectName": "bank-b-store"
+          }
+        }
+      ],
+      "postgresGID": 26,
+      "postgresUID": 26,
+      "postgresql": {
+        "parameters": {
+          "archive_mode": "on",
+          "archive_timeout": "5min",
+          "client_connection_check_interval": "1s",
+          "dynamic_shared_memory_type": "posix",
+          "full_page_writes": "on",
+          "idle_session_timeout": "45s",
+          "log_destination": "csvlog",
+          "log_directory": "/controller/log",
+          "log_filename": "postgres",
+          "log_rotation_age": "0",
+          "log_rotation_size": "0",
+          "log_truncate_on_rotation": "false",
+          "logging_collector": "on",
+          "max_connections": "150",
+          "max_parallel_workers": "32",
+          "max_prepared_transactions": "100",
+          "max_replication_slots": "32",
+          "max_worker_processes": "32",
+          "shared_memory_type": "mmap",
+          "shared_preload_libraries": "",
+          "ssl_max_protocol_version": "TLSv1.3",
+          "ssl_min_protocol_version": "TLSv1.3",
+          "tcp_keepalives_count": "3",
+          "tcp_keepalives_idle": "5",
+          "tcp_keepalives_interval": "2",
+          "tcp_user_timeout": "10000",
+          "wal_keep_size": "512MB",
+          "wal_level": "logical",
+          "wal_log_hints": "on",
+          "wal_receiver_timeout": "5s",
+          "wal_sender_timeout": "5s"
+        },
+        "syncReplicaElectionConstraint": {
+          "enabled": false
+        },
+        "synchronous": {
+          "dataDurability": "required",
+          "failoverQuorum": true,
+          "method": "any",
+          "number": 2
+        }
+      },
+      "primaryUpdateMethod": "restart",
+      "primaryUpdateStrategy": "unsupervised",
+      "probes": {
+        "liveness": {
+          "isolationCheck": {
+            "connectionTimeout": 1000,
+            "enabled": true,
+            "requestTimeout": 1000
+          }
+        }
+      },
+      "replicationSlots": {
+        "highAvailability": {
+          "enabled": true,
+          "slotPrefix": "_cnpg_"
+        },
+        "synchronizeReplicas": {
+          "enabled": true
+        },
+        "updateInterval": 30
+      },
+      "resources": {
+        "limits": {
+          "cpu": "1",
+          "memory": "768Mi"
+        },
+        "requests": {
+          "cpu": "100m",
+          "memory": "256Mi"
+        }
+      },
+      "smartShutdownTimeout": 0,
+      "startDelay": 3600,
+      "stopDelay": 1800,
+      "storage": {
+        "resizeInUseVolumes": true,
+        "size": "2Gi",
+        "storageClass": "local-path"
+      },
+      "switchoverDelay": 3600
+    },
+    "status": {
+      "availableArchitectures": [
+        {
+          "goArch": "amd64",
+          "hash": "6d915657dadd72f66b0cdeca4d8f357d00de769bee14d4f6ea8adb501dab80d4"
+        },
+        {
+          "goArch": "arm64",
+          "hash": "37e47ffea358929899c8fd2b54139307934492108f5a0cde76e491248145fd4d"
+        }
+      ],
+      "certificates": {
+        "clientCASecret": "bank-b-ca",
+        "expirations": {
+          "bank-b-ca": "2027-02-10 19:13:46 +0000 UTC",
+          "bank-b-replication": "2027-02-10 19:13:46 +0000 UTC",
+          "bank-b-server": "2027-02-10 19:13:46 +0000 UTC"
+        },
+        "replicationTLSSecret": "bank-b-replication",
+        "serverAltDNSNames": [
+          "bank-b-rw",
+          "bank-b-rw.banking",
+          "bank-b-rw.banking.svc",
+          "bank-b-rw.banking.svc.cluster.local",
+          "bank-b-r",
+          "bank-b-r.banking",
+          "bank-b-r.banking.svc",
+          "bank-b-r.banking.svc.cluster.local",
+          "bank-b-ro",
+          "bank-b-ro.banking",
+          "bank-b-ro.banking.svc",
+          "bank-b-ro.banking.svc.cluster.local"
+        ],
+        "serverCASecret": "bank-b-ca",
+        "serverTLSSecret": "bank-b-server"
+      },
+      "cloudNativePGCommitHash": "2a35abb46",
+      "cloudNativePGOperatorHash": "6d915657dadd72f66b0cdeca4d8f357d00de769bee14d4f6ea8adb501dab80d4",
+      "conditions": [
+        {
+          "lastTransitionTime": "2026-11-12T19:18:48Z",
+          "message": "Cluster has been bootstrapped",
+          "reason": "BootstrapCompleted",
+          "status": "True",
+          "type": "Initialized"
+        },
+        {
+          "lastTransitionTime": "2026-11-12T19:21:57Z",
+          "message": "A single, unique system ID was found across reporting instances.",
+          "reason": "Unique",
+          "status": "True",
+          "type": "ConsistentSystemID"
+        },
+        {
+          "lastTransitionTime": "2026-11-15T13:26:49Z",
+          "message": "Cluster is Ready",
+          "reason": "ClusterIsReady",
+          "status": "True",
+          "type": "Ready"
+        },
+        {
+          "lastTransitionTime": "2026-11-15T08:35:25Z",
+          "message": "Continuous archiving is working",
+          "reason": "ContinuousArchivingSuccess",
+          "status": "True",
+          "type": "ContinuousArchiving"
+        },
+        {
+          "lastTransitionTime": "2026-11-15T07:53:00Z",
+          "message": "Backup was successful",
+          "reason": "LastBackupSucceeded",
+          "status": "True",
+          "type": "LastBackupSucceeded"
+        }
+      ],
+      "configMapResourceVersion": {
+        "metrics": {
+          "cnpg-default-monitoring": "11441"
+        }
+      },
+      "currentPrimary": "bank-b-2",
+      "currentPrimaryTimestamp": "2026-11-15T08:35:24.995194Z",
+      "healthyPVC": [
+        "bank-b-1",
+        "bank-b-2",
+        "bank-b-3"
+      ],
+      "image": "ghcr.io/cloudnative-pg/postgresql:17-minimal-trixie",
+      "instanceNames": [
+        "bank-b-1",
+        "bank-b-2",
+        "bank-b-3"
+      ],
+      "instances": 3,
+      "instancesReportedState": {
+        "bank-b-1": {
+          "ip": "10.244.86.229",
+          "isPrimary": false,
+          "timeLineID": 4
+        },
+        "bank-b-2": {
+          "ip": "10.244.173.226",
+          "isPrimary": true,
+          "timeLineID": 4
+        },
+        "bank-b-3": {
+          "ip": "10.244.86.209",
+          "isPrimary": false,
+          "timeLineID": 4
+        }
+      },
+      "instancesStatus": {
+        "healthy": [
+          "bank-b-1",
+          "bank-b-2",
+          "bank-b-3"
+        ]
+      },
+      "lastFailedBackup": "2026-11-15T06:46:24Z",
+      "managedRolesStatus": {},
+      "operatorCertificateFingerprint": "ef0ce32f258507b86521cb169be826ad2f9848f4d7ab4b54756d69221cbfb24a",
+      "pgDataImageInfo": {
+        "image": "ghcr.io/cloudnative-pg/postgresql:17-minimal-trixie",
+        "majorVersion": 17
+      },
+      "phase": "Cluster in healthy state",
+      "pluginStatus": [
+        {
+          "capabilities": [
+            "TYPE_RECONCILER_HOOKS",
+            "TYPE_LIFECYCLE_SERVICE",
+            "TYPE_INSTANCE_SIDECAR_INJECTION"
+          ],
+          "name": "barman-cloud.cloudnative-pg.io",
+          "version": "0.16.0"
+        }
+      ],
+      "poolerIntegrations": {
+        "pgBouncerIntegration": {}
+      },
+      "pvcCount": 3,
+      "readService": "bank-b-r",
+      "readyInstances": 3,
+      "secretsResourceVersion": {
+        "applicationSecretVersion": "11252",
+        "clientCaSecretVersion": "11355",
+        "replicationSecretVersion": "11360",
+        "serverCaSecretVersion": "11355",
+        "serverSecretVersion": "11358"
+      },
+      "selector": "cnpg.io/cluster=bank-b,cnpg.io/podRole=instance",
+      "switchReplicaClusterStatus": {},
+      "systemID": "7707367385818566678",
+      "targetPrimary": "bank-b-2",
+      "targetPrimaryTimestamp": "2026-11-15T08:35:03.425536Z",
+      "timelineID": 4,
+      "topology": {
+        "instances": {
+          "bank-b-1": {},
+          "bank-b-2": {},
+          "bank-b-3": {}
+        },
+        "nodesUsed": 2,
+        "successfullyExtracted": true
+      },
+      "writeService": "bank-b-rw"
+    },
+    "uid": "369dab91-0233-4a17-98f5-ec9c7dae400e",
+    "instances": [
+      {
+        "pod": "bank-b-1",
+        "uid": "cc3099e4-f5ed-433e-9f9a-54f0fee934a1",
+        "node": "serverc-vmware-virtual-platform",
+        "ready": true,
+        "claims": [
+          "bank-b-1"
+        ],
+        "pg": {
+          "standby": true,
+          "synchronous_commit": "on",
+          "sync_names": "ANY 2 (\"bank-b-1\",\"bank-b-3\",\"bank-b-2\")",
+          "max_prepared": 100,
+          "fsync": "on",
+          "system_id": "7707367385818566678",
+          "timeline": 4,
+          "lsn": "0/2E003398",
+          "replication": [],
+          "wal_receiver": [
+            {
+              "status": "streaming",
+              "sender_host": "bank-b-rw",
+              "slot_name": "_cnpg_bank_b_1",
+              "written_lsn": "0/2E003398",
+              "flushed_lsn": "0/2E003398",
+              "received_tli": 4
+            }
+          ],
+          "slots": [
+            {
+              "slot_name": "_cnpg_bank_b_3",
+              "slot_type": "physical",
+              "active": false,
+              "restart_lsn": "0/2E003398",
+              "wal_status": "reserved",
+              "safe_wal_size": null
+            }
+          ],
+          "prepared": [],
+          "sync_waiters": 0,
+          "archiver": {
+            "archived_count": 0,
+            "failed_count": 0,
+            "last_archived_wal": null,
+            "last_archived_time": null,
+            "last_failed_time": null
+          }
+        }
+      },
+      {
+        "pod": "bank-b-2",
+        "uid": "1ad96b7c-081f-4d76-8f36-738982b66a3f",
+        "node": "serverb",
+        "ready": true,
+        "claims": [
+          "bank-b-2"
+        ],
+        "pg": {
+          "standby": false,
+          "synchronous_commit": "on",
+          "sync_names": "ANY 2 (\"bank-b-1\",\"bank-b-3\",\"bank-b-2\")",
+          "max_prepared": 100,
+          "fsync": "on",
+          "system_id": "7707367385818566678",
+          "timeline": 4,
+          "lsn": "0/2E003398",
+          "replication": [
+            {
+              "application_name": "bank-b-1",
+              "state": "streaming",
+              "sync_state": "quorum",
+              "sent_lsn": "0/2E003398",
+              "write_lsn": "0/2E003398",
+              "flush_lsn": "0/2E003398",
+              "replay_lsn": "0/2E003398"
+            },
+            {
+              "application_name": "bank-b-3",
+              "state": "streaming",
+              "sync_state": "quorum",
+              "sent_lsn": "0/2E003398",
+              "write_lsn": "0/2E003398",
+              "flush_lsn": "0/2E003398",
+              "replay_lsn": "0/2E003398"
+            }
+          ],
+          "wal_receiver": [],
+          "slots": [
+            {
+              "slot_name": "_cnpg_bank_b_1",
+              "slot_type": "physical",
+              "active": true,
+              "restart_lsn": "0/2E003398",
+              "wal_status": "reserved",
+              "safe_wal_size": null
+            },
+            {
+              "slot_name": "_cnpg_bank_b_3",
+              "slot_type": "physical",
+              "active": true,
+              "restart_lsn": "0/2E003398",
+              "wal_status": "reserved",
+              "safe_wal_size": null
+            }
+          ],
+          "prepared": [],
+          "sync_waiters": 0,
+          "archiver": {
+            "archived_count": 0,
+            "failed_count": 0,
+            "last_archived_wal": null,
+            "last_archived_time": null,
+            "last_failed_time": null
+          }
+        }
+      },
+      {
+        "pod": "bank-b-3",
+        "uid": "748541c4-2a02-4973-9bb8-7244d91510bd",
+        "node": "serverc-vmware-virtual-platform",
+        "ready": true,
+        "claims": [
+          "bank-b-3"
+        ],
+        "pg": {
+          "standby": true,
+          "synchronous_commit": "on",
+          "sync_names": "ANY 2 (\"bank-b-1\",\"bank-b-3\",\"bank-b-2\")",
+          "max_prepared": 100,
+          "fsync": "on",
+          "system_id": "7707367385818566678",
+          "timeline": 4,
+          "lsn": "0/2E003398",
+          "replication": [],
+          "wal_receiver": [
+            {
+              "status": "streaming",
+              "sender_host": "bank-b-rw",
+              "slot_name": "_cnpg_bank_b_3",
+              "written_lsn": "0/2E003398",
+              "flushed_lsn": "0/2E003398",
+              "received_tli": 4
+            }
+          ],
+          "slots": [
+            {
+              "slot_name": "_cnpg_bank_b_1",
+              "slot_type": "physical",
+              "active": false,
+              "restart_lsn": "0/2E003398",
+              "wal_status": "reserved",
+              "safe_wal_size": null
+            }
+          ],
+          "prepared": [],
+          "sync_waiters": 0,
+          "archiver": {
+            "archived_count": 0,
+            "failed_count": 0,
+            "last_archived_wal": null,
+            "last_archived_time": null,
+            "last_failed_time": null
+          }
+        }
+      }
+    ]
+  },
+  "after": {
+    "spec": {
+      "affinity": {
+        "enablePodAntiAffinity": true,
+        "nodeSelector": {
+          "banking-worker": "true"
+        },
+        "podAntiAffinityType": "preferred",
+        "topologyKey": "kubernetes.io/hostname"
+      },
+      "bootstrap": {
+        "initdb": {
+          "database": "bank",
+          "encoding": "UTF8",
+          "localeCType": "C",
+          "localeCollate": "C",
+          "owner": "bank",
+          "secret": {
+            "name": "bank-db-credentials"
+          }
+        }
+      },
+      "enablePDB": true,
+      "enableSuperuserAccess": false,
+      "failoverDelay": 0,
+      "imageName": "ghcr.io/cloudnative-pg/postgresql:17-minimal-trixie",
+      "instances": 3,
+      "logLevel": "info",
+      "maxSyncReplicas": 0,
+      "minSyncReplicas": 0,
+      "monitoring": {
+        "customQueriesConfigMap": [
+          {
+            "key": "queries",
+            "name": "cnpg-default-monitoring"
+          }
+        ],
+        "disableDefaultQueries": false,
+        "enablePodMonitor": false
+      },
+      "plugins": [
+        {
+          "enabled": true,
+          "isWALArchiver": true,
+          "name": "barman-cloud.cloudnative-pg.io",
+          "parameters": {
+            "barmanObjectName": "bank-b-store"
+          }
+        }
+      ],
+      "postgresGID": 26,
+      "postgresUID": 26,
+      "postgresql": {
+        "parameters": {
+          "archive_mode": "on",
+          "archive_timeout": "5min",
+          "client_connection_check_interval": "1s",
+          "dynamic_shared_memory_type": "posix",
+          "full_page_writes": "on",
+          "idle_session_timeout": "45s",
+          "log_destination": "csvlog",
+          "log_directory": "/controller/log",
+          "log_filename": "postgres",
+          "log_rotation_age": "0",
+          "log_rotation_size": "0",
+          "log_truncate_on_rotation": "false",
+          "logging_collector": "on",
+          "max_connections": "150",
+          "max_parallel_workers": "32",
+          "max_prepared_transactions": "100",
+          "max_replication_slots": "32",
+          "max_worker_processes": "32",
+          "shared_memory_type": "mmap",
+          "shared_preload_libraries": "",
+          "ssl_max_protocol_version": "TLSv1.3",
+          "ssl_min_protocol_version": "TLSv1.3",
+          "tcp_keepalives_count": "3",
+          "tcp_keepalives_idle": "5",
+          "tcp_keepalives_interval": "2",
+          "tcp_user_timeout": "10000",
+          "wal_keep_size": "512MB",
+          "wal_level": "logical",
+          "wal_log_hints": "on",
+          "wal_receiver_timeout": "5s",
+          "wal_sender_timeout": "5s"
+        },
+        "syncReplicaElectionConstraint": {
+          "enabled": false
+        },
+        "synchronous": {
+          "dataDurability": "required",
+          "failoverQuorum": true,
+          "method": "any",
+          "number": 2
+        }
+      },
+      "primaryUpdateMethod": "restart",
+      "primaryUpdateStrategy": "unsupervised",
+      "probes": {
+        "liveness": {
+          "isolationCheck": {
+            "connectionTimeout": 1000,
+            "enabled": true,
+            "requestTimeout": 1000
+          }
+        }
+      },
+      "replicationSlots": {
+        "highAvailability": {
+          "enabled": true,
+          "slotPrefix": "_cnpg_"
+        },
+        "synchronizeReplicas": {
+          "enabled": true
+        },
+        "updateInterval": 30
+      },
+      "resources": {
+        "limits": {
+          "cpu": "1",
+          "memory": "768Mi"
+        },
+        "requests": {
+          "cpu": "100m",
+          "memory": "256Mi"
+        }
+      },
+      "smartShutdownTimeout": 0,
+      "startDelay": 3600,
+      "stopDelay": 1800,
+      "storage": {
+        "resizeInUseVolumes": true,
+        "size": "2Gi",
+        "storageClass": "local-path"
+      },
+      "switchoverDelay": 3600
+    },
+    "status": {
+      "availableArchitectures": [
+        {
+          "goArch": "amd64",
+          "hash": "6d915657dadd72f66b0cdeca4d8f357d00de769bee14d4f6ea8adb501dab80d4"
+        },
+        {
+          "goArch": "arm64",
+          "hash": "37e47ffea358929899c8fd2b54139307934492108f5a0cde76e491248145fd4d"
+        }
+      ],
+      "certificates": {
+        "clientCASecret": "bank-b-ca",
+        "expirations": {
+          "bank-b-ca": "2027-02-10 19:13:46 +0000 UTC",
+          "bank-b-replication": "2027-02-10 19:13:46 +0000 UTC",
+          "bank-b-server": "2027-02-10 19:13:46 +0000 UTC"
+        },
+        "replicationTLSSecret": "bank-b-replication",
+        "serverAltDNSNames": [
+          "bank-b-rw",
+          "bank-b-rw.banking",
+          "bank-b-rw.banking.svc",
+          "bank-b-rw.banking.svc.cluster.local",
+          "bank-b-r",
+          "bank-b-r.banking",
+          "bank-b-r.banking.svc",
+          "bank-b-r.banking.svc.cluster.local",
+          "bank-b-ro",
+          "bank-b-ro.banking",
+          "bank-b-ro.banking.svc",
+          "bank-b-ro.banking.svc.cluster.local"
+        ],
+        "serverCASecret": "bank-b-ca",
+        "serverTLSSecret": "bank-b-server"
+      },
+      "cloudNativePGCommitHash": "2a35abb46",
+      "cloudNativePGOperatorHash": "6d915657dadd72f66b0cdeca4d8f357d00de769bee14d4f6ea8adb501dab80d4",
+      "conditions": [
+        {
+          "lastTransitionTime": "2026-11-12T19:18:48Z",
+          "message": "Cluster has been bootstrapped",
+          "reason": "BootstrapCompleted",
+          "status": "True",
+          "type": "Initialized"
+        },
+        {
+          "lastTransitionTime": "2026-11-12T19:21:57Z",
+          "message": "A single, unique system ID was found across reporting instances.",
+          "reason": "Unique",
+          "status": "True",
+          "type": "ConsistentSystemID"
+        },
+        {
+          "lastTransitionTime": "2026-11-15T13:26:49Z",
+          "message": "Cluster is Ready",
+          "reason": "ClusterIsReady",
+          "status": "True",
+          "type": "Ready"
+        },
+        {
+          "lastTransitionTime": "2026-11-15T08:35:25Z",
+          "message": "Continuous archiving is working",
+          "reason": "ContinuousArchivingSuccess",
+          "status": "True",
+          "type": "ContinuousArchiving"
+        },
+        {
+          "lastTransitionTime": "2026-11-15T07:53:00Z",
+          "message": "Backup was successful",
+          "reason": "LastBackupSucceeded",
+          "status": "True",
+          "type": "LastBackupSucceeded"
+        }
+      ],
+      "configMapResourceVersion": {
+        "metrics": {
+          "cnpg-default-monitoring": "11441"
+        }
+      },
+      "currentPrimary": "bank-b-1",
+      "currentPrimaryTimestamp": "2026-11-15T13:28:13.759284Z",
+      "healthyPVC": [
+        "bank-b-1",
+        "bank-b-2",
+        "bank-b-3"
+      ],
+      "image": "ghcr.io/cloudnative-pg/postgresql:17-minimal-trixie",
+      "instanceNames": [
+        "bank-b-1",
+        "bank-b-2",
+        "bank-b-3"
+      ],
+      "instances": 3,
+      "instancesReportedState": {
+        "bank-b-1": {
+          "ip": "10.244.86.229",
+          "isPrimary": true,
+          "timeLineID": 5
+        },
+        "bank-b-2": {
+          "ip": "10.244.173.226",
+          "isPrimary": false,
+          "timeLineID": 4
+        },
+        "bank-b-3": {
+          "ip": "10.244.86.209",
+          "isPrimary": false,
+          "timeLineID": 4
+        }
+      },
+      "instancesStatus": {
+        "healthy": [
+          "bank-b-1",
+          "bank-b-2",
+          "bank-b-3"
+        ]
+      },
+      "lastFailedBackup": "2026-11-15T06:46:24Z",
+      "managedRolesStatus": {},
+      "operatorCertificateFingerprint": "ef0ce32f258507b86521cb169be826ad2f9848f4d7ab4b54756d69221cbfb24a",
+      "pgDataImageInfo": {
+        "image": "ghcr.io/cloudnative-pg/postgresql:17-minimal-trixie",
+        "majorVersion": 17
+      },
+      "phase": "Cluster in healthy state",
+      "pluginStatus": [
+        {
+          "capabilities": [
+            "TYPE_RECONCILER_HOOKS",
+            "TYPE_LIFECYCLE_SERVICE",
+            "TYPE_INSTANCE_SIDECAR_INJECTION"
+          ],
+          "name": "barman-cloud.cloudnative-pg.io",
+          "version": "0.16.0"
+        }
+      ],
+      "poolerIntegrations": {
+        "pgBouncerIntegration": {}
+      },
+      "pvcCount": 3,
+      "readService": "bank-b-r",
+      "readyInstances": 3,
+      "secretsResourceVersion": {
+        "applicationSecretVersion": "11252",
+        "clientCaSecretVersion": "11355",
+        "replicationSecretVersion": "11360",
+        "serverCaSecretVersion": "11355",
+        "serverSecretVersion": "11358"
+      },
+      "selector": "cnpg.io/cluster=bank-b,cnpg.io/podRole=instance",
+      "switchReplicaClusterStatus": {},
+      "systemID": "7707367385818566678",
+      "targetPrimary": "bank-b-1",
+      "targetPrimaryTimestamp": "2026-11-15T13:28:08.687601+00:00",
+      "timelineID": 5,
+      "topology": {
+        "instances": {
+          "bank-b-1": {},
+          "bank-b-2": {},
+          "bank-b-3": {}
+        },
+        "nodesUsed": 2,
+        "successfullyExtracted": true
+      },
+      "writeService": "bank-b-rw"
+    },
+    "uid": "369dab91-0233-4a17-98f5-ec9c7dae400e",
+    "instances": [
+      {
+        "pod": "bank-b-1",
+        "uid": "cc3099e4-f5ed-433e-9f9a-54f0fee934a1",
+        "node": "serverc-vmware-virtual-platform",
+        "ready": true,
+        "claims": [
+          "bank-b-1"
+        ],
+        "pg": {
+          "standby": false,
+          "synchronous_commit": "on",
+          "sync_names": "ANY 2 (\"bank-b-2\",\"bank-b-3\",\"bank-b-1\")",
+          "max_prepared": 100,
+          "fsync": "on",
+          "system_id": "7707367385818566678",
+          "timeline": 5,
+          "lsn": "0/2F001708",
+          "replication": [
+            {
+              "application_name": "bank-b-3",
+              "state": "streaming",
+              "sync_state": "quorum",
+              "sent_lsn": "0/2F001708",
+              "write_lsn": "0/2F001708",
+              "flush_lsn": "0/2F001708",
+              "replay_lsn": "0/2F001708"
+            },
+            {
+              "application_name": "bank-b-2",
+              "state": "streaming",
+              "sync_state": "quorum",
+              "sent_lsn": "0/2F001708",
+              "write_lsn": "0/2F001708",
+              "flush_lsn": "0/2F001708",
+              "replay_lsn": "0/2F001708"
+            }
+          ],
+          "wal_receiver": [],
+          "slots": [
+            {
+              "slot_name": "_cnpg_bank_b_3",
+              "slot_type": "physical",
+              "active": true,
+              "restart_lsn": "0/2F001708",
+              "wal_status": "reserved",
+              "safe_wal_size": null
+            },
+            {
+              "slot_name": "_cnpg_bank_b_2",
+              "slot_type": "physical",
+              "active": true,
+              "restart_lsn": "0/2F001708",
+              "wal_status": "reserved",
+              "safe_wal_size": null
+            }
+          ],
+          "prepared": [],
+          "sync_waiters": 0,
+          "archiver": {
+            "archived_count": 2,
+            "failed_count": 0,
+            "last_archived_wal": "00000004000000000000002F.partial",
+            "last_archived_time": "2026-11-15T13:28:15.58027+00:00",
+            "last_failed_time": null
+          }
+        }
+      },
+      {
+        "pod": "bank-b-2",
+        "uid": "1ad96b7c-081f-4d76-8f36-738982b66a3f",
+        "node": "serverb",
+        "ready": true,
+        "claims": [
+          "bank-b-2"
+        ],
+        "pg": {
+          "standby": true,
+          "synchronous_commit": "on",
+          "sync_names": "ANY 2 (\"bank-b-2\",\"bank-b-3\",\"bank-b-1\")",
+          "max_prepared": 100,
+          "fsync": "on",
+          "system_id": "7707367385818566678",
+          "timeline": 4,
+          "lsn": "0/2F001708",
+          "replication": [],
+          "wal_receiver": [
+            {
+              "status": "streaming",
+              "sender_host": "bank-b-rw",
+              "slot_name": "_cnpg_bank_b_2",
+              "written_lsn": "0/2F001708",
+              "flushed_lsn": "0/2F001708",
+              "received_tli": 5
+            }
+          ],
+          "slots": [
+            {
+              "slot_name": "_cnpg_bank_b_3",
+              "slot_type": "physical",
+              "active": false,
+              "restart_lsn": "0/2F001708",
+              "wal_status": "reserved",
+              "safe_wal_size": null
+            }
+          ],
+          "prepared": [],
+          "sync_waiters": 0,
+          "archiver": {
+            "archived_count": 0,
+            "failed_count": 0,
+            "last_archived_wal": null,
+            "last_archived_time": null,
+            "last_failed_time": null
+          }
+        }
+      },
+      {
+        "pod": "bank-b-3",
+        "uid": "748541c4-2a02-4973-9bb8-7244d91510bd",
+        "node": "serverc-vmware-virtual-platform",
+        "ready": true,
+        "claims": [
+          "bank-b-3"
+        ],
+        "pg": {
+          "standby": true,
+          "synchronous_commit": "on",
+          "sync_names": "ANY 2 (\"bank-b-2\",\"bank-b-3\",\"bank-b-1\")",
+          "max_prepared": 100,
+          "fsync": "on",
+          "system_id": "7707367385818566678",
+          "timeline": 4,
+          "lsn": "0/2F001708",
+          "replication": [],
+          "wal_receiver": [
+            {
+              "status": "streaming",
+              "sender_host": "bank-b-rw",
+              "slot_name": "_cnpg_bank_b_3",
+              "written_lsn": "0/2F001708",
+              "flushed_lsn": "0/2F001708",
+              "received_tli": 5
+            }
+          ],
+          "slots": [
+            {
+              "slot_name": "_cnpg_bank_b_2",
+              "slot_type": "physical",
+              "active": false,
+              "restart_lsn": "0/2F001708",
+              "wal_status": "reserved",
+              "safe_wal_size": null
+            }
+          ],
+          "prepared": [],
+          "sync_waiters": 0,
+          "archiver": {
+            "archived_count": 0,
+            "failed_count": 0,
+            "last_archived_wal": null,
+            "last_archived_time": null,
+            "last_failed_time": null
+          }
+        }
+      }
+    ]
+  },
+  "kubeconfig_file": "banking-vm.yaml"
+}

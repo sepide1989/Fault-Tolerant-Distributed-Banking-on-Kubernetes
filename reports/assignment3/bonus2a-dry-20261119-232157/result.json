@@ -1,0 +1,9 @@
+{
+  "created_utc": "2026-11-19T19:51:59.358525+00:00",
+  "status": "DRY_RUN",
+  "scenario": "II-A",
+  "lost_node": "serverc-vmware-virtual-platform",
+  "destruction_plan": "reports/assignment3/bonus2-a-destruction-plan.json",
+  "observations": [],
+  "kubeconfig_file": "isolated-kubeconfig.yaml"
+}

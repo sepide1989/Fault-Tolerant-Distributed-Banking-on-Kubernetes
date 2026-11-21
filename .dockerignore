@@ -1,0 +1,11 @@
+.git
+**/__pycache__
+.pytest_cache
+reports
+docs
+.env
+.env.*
+**/*.key
+**/*.pem
+**/*.enc
+**/private

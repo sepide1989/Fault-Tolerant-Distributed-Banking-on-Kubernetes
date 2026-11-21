@@ -1,0 +1,20 @@
+CREATE TABLE accounts (
+  account_id TEXT PRIMARY KEY,
+  balance BIGINT NOT NULL CHECK (balance >= 0)
+);
+CREATE TABLE local_requests (
+  request_id TEXT PRIMARY KEY,
+  op_type TEXT NOT NULL,
+  payload JSONB NOT NULL,
+  result JSONB
+);
+CREATE TABLE participant_fences (tx_id TEXT PRIMARY KEY);
+CREATE TABLE participant_results (
+  tx_id TEXT PRIMARY KEY,
+  status TEXT NOT NULL CHECK (status IN ('COMMITTED', 'ABORTED'))
+);
+INSERT INTO accounts(account_id, balance)
+SELECT 'A' || lpad(n::TEXT, 4, '0'), 1000
+FROM generate_series(1001, 2000) AS n;
+-- Match the Assignment 2 example: A1500 starts with 500 units.
+UPDATE accounts SET balance=500 WHERE account_id='A1500';

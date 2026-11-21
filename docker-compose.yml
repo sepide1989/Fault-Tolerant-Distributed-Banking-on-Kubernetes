@@ -1,0 +1,171 @@
+name: distributed-banking-assignment2
+
+x-bank-base: &bank-base
+  build: .
+  restart: "no"
+  command: ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "1", "--threads", "8", "--timeout", "45", "bank.app:app"]
+  healthcheck:
+    test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=2)"]
+    interval: 5s
+    timeout: 3s
+    retries: 5
+
+x-postgres-base: &postgres-base
+  image: postgres:17
+  restart: "no"
+  environment:
+    POSTGRES_USER: bank
+    POSTGRES_PASSWORD: bankpass
+    POSTGRES_DB: bank
+  command: ["postgres", "-c", "max_prepared_transactions=100", "-c", "max_connections=100"]
+  healthcheck:
+    test: ["CMD-SHELL", "pg_isready -U bank -d bank"]
+    interval: 3s
+    timeout: 3s
+    retries: 15
+
+services:
+  db-a:
+    <<: *postgres-base
+    volumes:
+      - data_a:/var/lib/postgresql/data
+      - ./db/init_a.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
+  db-b:
+    <<: *postgres-base
+    volumes:
+      - data_b:/var/lib/postgresql/data
+      - ./db/init_b.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
+  meta-db:
+    <<: *postgres-base
+    volumes:
+      - meta_data:/var/lib/postgresql/data
+      - ./db/init_meta.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
+  schema-upgrade:
+    build: .
+    restart: "no"
+    command: ["python", "-m", "bonus.bootstrap"]
+    depends_on:
+      db-a: {condition: service_healthy}
+      db-b: {condition: service_healthy}
+      meta-db: {condition: service_healthy}
+  bank-a1:
+    <<: *bank-base
+    environment:
+      SHARD_ID: A
+      REPLICA_ID: A1
+      DB_DSN: postgresql://bank:bankpass@db-a:5432/bank
+      PREPARE_LOCK_TIMEOUT: "${PREPARE_LOCK_TIMEOUT:-6s}"
+    depends_on: {schema-upgrade: {condition: service_completed_successfully}}
+  bank-a2:
+    <<: *bank-base
+    environment:
+      SHARD_ID: A
+      REPLICA_ID: A2
+      DB_DSN: postgresql://bank:bankpass@db-a:5432/bank
+      PREPARE_LOCK_TIMEOUT: "${PREPARE_LOCK_TIMEOUT:-6s}"
+    depends_on: {schema-upgrade: {condition: service_completed_successfully}}
+  bank-b1:
+    <<: *bank-base
+    environment:
+      SHARD_ID: B
+      REPLICA_ID: B1
+      DB_DSN: postgresql://bank:bankpass@db-b:5432/bank
+      PREPARE_LOCK_TIMEOUT: "${PREPARE_LOCK_TIMEOUT:-6s}"
+    depends_on: {schema-upgrade: {condition: service_completed_successfully}}
+  bank-b2:
+    <<: *bank-base
+    environment:
+      SHARD_ID: B
+      REPLICA_ID: B2
+      DB_DSN: postgresql://bank:bankpass@db-b:5432/bank
+      PREPARE_LOCK_TIMEOUT: "${PREPARE_LOCK_TIMEOUT:-6s}"
+    depends_on: {schema-upgrade: {condition: service_completed_successfully}}
+  gateway:
+    build: .
+    restart: "no"
+    command: ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "1", "--threads", "8", "--timeout", "50", "gateway.app:app"]
+    ports: ["${BANK_GATEWAY_PORT:-8000}:8000"]
+    environment:
+      COORD_DB: /state/coordinator.sqlite3
+      ENABLE_DEMO_ENDPOINTS: "1"
+      HEALER_TOKEN: dev-local-controller-token
+      REPLICAS_A: http://bank-a1:8000,http://bank-a2:8000
+      REPLICAS_B: http://bank-b1:8000,http://bank-b2:8000
+      REPLICAS_C: http://bank-c1:8000,http://bank-c2:8000
+    volumes: ["coordinator_state:/state"]
+    depends_on:
+      bank-a1: {condition: service_healthy}
+      bank-a2: {condition: service_healthy}
+      bank-b1: {condition: service_healthy}
+      bank-b2: {condition: service_healthy}
+
+  db-c:
+    <<: *postgres-base
+    profiles: ["bonus1"]
+    volumes:
+      - data_c:/var/lib/postgresql/data
+      - ./db/init_c.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
+  schema-upgrade-c:
+    build: .
+    profiles: ["bonus1"]
+    restart: "no"
+    environment:
+      ONLY_C: "1"
+    command: ["python", "-m", "bonus.bootstrap"]
+    depends_on: {db-c: {condition: service_healthy}}
+  bank-c1:
+    <<: *bank-base
+    profiles: ["bonus1"]
+    environment:
+      SHARD_ID: C
+      REPLICA_ID: C1
+      DB_DSN: postgresql://bank:bankpass@db-c:5432/bank
+      PREPARE_LOCK_TIMEOUT: "${PREPARE_LOCK_TIMEOUT:-6s}"
+    depends_on: {schema-upgrade-c: {condition: service_completed_successfully}}
+  bank-c2:
+    <<: *bank-base
+    profiles: ["bonus1"]
+    environment:
+      SHARD_ID: C
+      REPLICA_ID: C2
+      DB_DSN: postgresql://bank:bankpass@db-c:5432/bank
+      PREPARE_LOCK_TIMEOUT: "${PREPARE_LOCK_TIMEOUT:-6s}"
+    depends_on: {schema-upgrade-c: {condition: service_completed_successfully}}
+  migrator:
+    build: .
+    profiles: ["bonus1"]
+    restart: "no"
+    command: ["gunicorn", "--bind", "0.0.0.0:8050", "--workers", "1", "--threads", "4", "bonus.migrator:app"]
+    ports: ["127.0.0.1:${MIGRATOR_PORT:-8050}:8050"]
+    environment:
+      MIGRATION_SNAPSHOT_DELAY: ${MIGRATION_SNAPSHOT_DELAY:-0}
+      MIGRATION_REPLAY_DELAY: ${MIGRATION_REPLAY_DELAY:-0}
+      MIGRATION_FENCE_DELAY: ${MIGRATION_FENCE_DELAY:-0}
+      MIGRATION_CLEANUP_DELAY: ${MIGRATION_CLEANUP_DELAY:-0}
+    depends_on:
+      bank-c1: {condition: service_healthy}
+      bank-c2: {condition: service_healthy}
+      schema-upgrade: {condition: service_completed_successfully}
+
+  self-healer:
+    build: .
+    profiles: ["bonus2"]
+    restart: "no" # Explicitly not using automatic Docker restarts.
+    command: ["python", "-m", "bonus.healer"]
+    environment:
+      COMPOSE_PROJECT: distributed-banking-assignment2
+      HEALER_TOKEN: dev-local-controller-token
+      HEAL_C: ${HEAL_C:-0}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - healer_state:/healer-state
+    depends_on:
+      gateway: {condition: service_started}
+
+volumes:
+  data_a:
+  data_b:
+  data_c:
+  meta_data:
+  coordinator_state:
+  healer_state:

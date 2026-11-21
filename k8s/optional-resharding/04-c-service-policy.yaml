@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bank-c
+  namespace: banking
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/port: '8000'
+    prometheus.io/path: /metrics
+spec:
+  selector:
+    app: bank-c
+  ports:
+  - name: http
+    port: 8000
+    targetPort: 8000
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: bank-c-allow-gateway-only
+  namespace: banking
+spec:
+  podSelector:
+    matchLabels:
+      app: bank-c
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: gateway
+    - podSelector:
+        matchLabels:
+          app: coordinator-recovery
+    ports:
+    - protocol: TCP
+      port: 8000

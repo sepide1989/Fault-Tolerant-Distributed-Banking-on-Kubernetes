@@ -1,0 +1,8 @@
+# Banking evidence
+
+UTC: 2026-11-15T09:59:52.391764+00:00
+
+Result: FAIL
+
+
+Error from server (InternalError): error when creating "STDIN": Internal error occurred: failed calling webhook "mbackup.cnpg.io": failed to call webhook: Post "https://cnpg-webhook-service.cnpg-system.svc:443/mutate-postgresql-cnpg-io-v1-backup?timeout=10s": dial tcp 10.105.116.248:443: connect: connection refused

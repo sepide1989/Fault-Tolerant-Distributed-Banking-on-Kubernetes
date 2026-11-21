@@ -1,0 +1,24 @@
+{
+  "created_utc": "2026-11-15T12:47:46.066693+00:00",
+  "status": "PARTIAL",
+  "scope": "Historical standalone restore-drill artifacts lost with the approved C copy; claims retained, never considered usable production replicas",
+  "clusters": [
+    {
+      "name": "bank-a-dr-lab20261115",
+      "uid": "ca489826-f959-4419-8ca7-f6b57a84b31b"
+    },
+    {
+      "name": "bank-a-dr-v20261115",
+      "uid": "533599da-508b-49f3-aae8-66b20ddca7de"
+    },
+    {
+      "name": "bank-b-dr-v20261115",
+      "uid": "1f25f9a1-bb67-46e0-8985-bc9158c19349"
+    },
+    {
+      "name": "bank-meta-dr-v20261115",
+      "uid": "31ee94e8-7f7d-4849-a192-da53870680c1"
+    }
+  ],
+  "kubeconfig_file": "isolated-kubeconfig.yaml"
+}

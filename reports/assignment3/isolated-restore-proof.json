@@ -1,0 +1,131 @@
+{
+  "created_utc": "2026-11-15T10:02:16.674737+00:00",
+  "status": "PASS",
+  "clusters": {
+    "bank-a": {
+      "restore_name": "bank-a-dr-lab20261115",
+      "source_primary": "bank-a-2",
+      "cutoff_lsn": "0/3A02D438",
+      "archived_wal": "00000008000000000000003A",
+      "matches": {
+        "public_table_set": true,
+        "accounts": true,
+        "local_requests": true,
+        "migration_applied": true,
+        "migration_cursor": true,
+        "migration_outbox": true,
+        "ownership": true,
+        "participant_fences": true,
+        "participant_results": true
+      },
+      "restore_pg": {
+        "standby": false,
+        "synchronous_commit": "on",
+        "sync_names": "",
+        "max_prepared": 100,
+        "fsync": "on",
+        "system_id": "7707367486795997204",
+        "timeline": 9,
+        "lsn": "0/3E030000",
+        "replication": [],
+        "wal_receiver": [],
+        "slots": [],
+        "prepared": [],
+        "sync_waiters": 0,
+        "archiver": {
+          "archived_count": 3,
+          "failed_count": 2,
+          "last_archived_wal": "00000009000000000000003C",
+          "last_archived_time": "2026-11-15T10:03:12.895951+00:00",
+          "last_failed_time": "2026-11-15T10:02:58.886273+00:00"
+        }
+      }
+    },
+    "bank-b": {
+      "restore_name": "bank-b-dr-lab20261115",
+      "source_primary": "bank-b-1",
+      "cutoff_lsn": "0/31000148",
+      "archived_wal": "000000050000000000000031",
+      "matches": {
+        "public_table_set": true,
+        "accounts": true,
+        "local_requests": true,
+        "migration_applied": true,
+        "migration_cursor": true,
+        "migration_outbox": true,
+        "ownership": true,
+        "participant_fences": true,
+        "participant_results": true
+      },
+      "restore_pg": {
+        "standby": false,
+        "synchronous_commit": "on",
+        "sync_names": "",
+        "max_prepared": 100,
+        "fsync": "on",
+        "system_id": "7707367385818566678",
+        "timeline": 6,
+        "lsn": "0/3501C000",
+        "replication": [],
+        "wal_receiver": [],
+        "slots": [],
+        "prepared": [],
+        "sync_waiters": 0,
+        "archiver": {
+          "archived_count": 3,
+          "failed_count": 5,
+          "last_archived_wal": "000000060000000000000033",
+          "last_archived_time": "2026-11-15T10:04:17.648583+00:00",
+          "last_failed_time": "2026-11-15T10:04:06.346773+00:00"
+        }
+      }
+    },
+    "bank-meta": {
+      "restore_name": "bank-meta-dr-lab20261115",
+      "source_primary": "bank-meta-2",
+      "cutoff_lsn": "0/3B000148",
+      "archived_wal": "00000006000000000000003B",
+      "matches": {
+        "public_table_set": true,
+        "acknowledgements": true,
+        "legacy_local_requests": true,
+        "map_epoch": true,
+        "migration_job": true,
+        "request_registry": true,
+        "shard_ranges": true,
+        "transactions": true,
+        "votes": true
+      },
+      "restore_pg": {
+        "standby": false,
+        "synchronous_commit": "on",
+        "sync_names": "",
+        "max_prepared": 100,
+        "fsync": "on",
+        "system_id": "7707367378323181588",
+        "timeline": 7,
+        "lsn": "0/3F06E000",
+        "replication": [],
+        "wal_receiver": [],
+        "slots": [],
+        "prepared": [],
+        "sync_waiters": 0,
+        "archiver": {
+          "archived_count": 3,
+          "failed_count": 5,
+          "last_archived_wal": "00000007000000000000003D",
+          "last_archived_time": "2026-11-15T10:05:21.450763+00:00",
+          "last_failed_time": "2026-11-15T10:05:11.060677+00:00"
+        }
+      }
+    }
+  },
+  "cluster_uids": {
+    "bank-a": "c8388198-2533-4e1d-975c-c7ef865473a3",
+    "bank-b": "369dab91-0233-4a17-98f5-ec9c7dae400e",
+    "bank-meta": "6d455f42-554c-403b-a6b9-ccfecfebf43d"
+  },
+  "audit_sha256": "0b7ef0131e75634c0e7bdbf50039f3a45d10d00cc19bd21853b71b22a5250806",
+  "source_ha_was_degraded": false,
+  "kubeconfig_file": "isolated-kubeconfig.yaml"
+}

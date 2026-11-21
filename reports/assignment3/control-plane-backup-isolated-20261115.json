@@ -1,0 +1,25 @@
+{
+  "created_utc": "2026-11-15T10:02:26.804109+00:00",
+  "status": "FAIL",
+  "endpoint_health": "https://127.0.0.1:2379 is healthy: successfully committed proposal: took = 15.858726ms",
+  "etcd_version": "etcdutl version: 3.6.8\nAPI version: 3.6",
+  "snapshot_status": {
+    "hash": 292444054,
+    "revision": 197267,
+    "totalKey": 2885,
+    "totalSize": 64864256,
+    "version": "3.6.0"
+  },
+  "archive": "reports\\assignment3\\private\\control-plane-isolated-20261115.tar.gz.enc",
+  "archive_sha256": "932f76f274ec3415f2d2188d37afd7483dc05c312f29887f7937ea6f5459124f",
+  "control_plane_node": "ubuntuserver-vmware-virtual-platform",
+  "kubeadm_version": "v1.36.6",
+  "off_vm_location": "Windows Host",
+  "original_cluster_uids": {
+    "bank-a": "c8388198-2533-4e1d-975c-c7ef865473a3",
+    "bank-b": "369dab91-0233-4a17-98f5-ec9c7dae400e",
+    "bank-meta": "6d455f42-554c-403b-a6b9-ccfecfebf43d"
+  },
+  "error": "error: cannot exec into a container in a completed pod; current phase is Failed\n",
+  "kubeconfig_file": "isolated-kubeconfig.yaml"
+}

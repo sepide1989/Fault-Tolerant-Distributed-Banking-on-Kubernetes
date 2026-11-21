@@ -1,0 +1,10 @@
+{
+  "created_utc": "2026-11-15T14:35:29.903905+00:00",
+  "status": "PASS",
+  "source_commit": "62b54a23bd4f8c75085b26cb14f312fdda2af7c9",
+  "target": "/home/ubuntuserver/Desktop/Assignment3_FaultTolerant_Banking_BootstrapFix_v3",
+  "files_verified": 274,
+  "all_hashes_match_windows": true,
+  "before_backup_sha256": "f88dca48f2ba7a669a13733e17a00b691bfb86e3e513a7164794f67ddb38403b",
+  "scope": "Code, manifests, tests, original assignment PDF, Persian guides and all public evidence; private credentials/archives excluded."
+}

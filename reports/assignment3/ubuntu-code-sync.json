@@ -1,0 +1,10 @@
+{
+  "created_utc": "2026-11-15T13:53:38.252579+00:00",
+  "status": "PASS",
+  "target": "/home/ubuntuserver/Desktop/Assignment3_FaultTolerant_Banking_BootstrapFix_v3",
+  "files_applied": 65,
+  "hashes_match_host": true,
+  "preserved_before_sha256": "19810c92ac5fe11730a9d35e9a9275e8508653cd27997e7d260527f80531b6bf",
+  "reviewed_conflict": "Legacy Ubuntu load generator replaced by the tested version, retaining durable IDs/results, same-ID retries and unknown-response handling. Original preserved off-VM.",
+  "source_git": "No Git repository/executable in Ubuntu; Windows Git commits are the authoritative source history."
+}

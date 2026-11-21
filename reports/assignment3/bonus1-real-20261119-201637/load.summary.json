@@ -1,0 +1,14 @@
+{
+  "run_id": "bonus1-real-20261119-201637",
+  "seed": 7,
+  "counts": {
+    "200": 166,
+    "validated_success": 166,
+    "503": 61,
+    "not_success": 63,
+    "202": 1,
+    "transport": 1
+  },
+  "log": "reports\\assignment3\\bonus1-real-20261119-201637\\load.jsonl",
+  "note": "Unknown responses require DB audit; HTTP counters are not correctness proof."
+}

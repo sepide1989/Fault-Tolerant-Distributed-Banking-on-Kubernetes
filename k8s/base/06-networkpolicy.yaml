@@ -1,0 +1,25 @@
+# Enforced if the CNI implements NetworkPolicy (Calico/Cilium).
+# Unlabeled attacker Pods cannot call a shard; Gateway Pods can.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: bank-a-allow-gateway-only, namespace: banking}
+spec:
+  podSelector: {matchLabels: {app: bank-a}}
+  policyTypes: [Ingress]
+  ingress:
+  - from:
+    - podSelector: {matchLabels: {app: gateway}}
+    - podSelector: {matchLabels: {app: coordinator-recovery}}
+    ports: [{protocol: TCP, port: 8000}]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: {name: bank-b-allow-gateway-only, namespace: banking}
+spec:
+  podSelector: {matchLabels: {app: bank-b}}
+  policyTypes: [Ingress]
+  ingress:
+  - from:
+    - podSelector: {matchLabels: {app: gateway}}
+    - podSelector: {matchLabels: {app: coordinator-recovery}}
+    ports: [{protocol: TCP, port: 8000}]

@@ -1,0 +1,11 @@
+{
+  "created_utc": "2026-11-18T07:14:46.496444+00:00",
+  "status": "DRY_RUN",
+  "failure": "reversible worker hard power-off",
+  "lost_node": "serverc-vmware-virtual-platform",
+  "observations": [],
+  "vmx_bios_uuid": "56 4d bc 65 67 52 59 8a-4d cb ab 14 d1 91 e2 9f",
+  "node_system_uuid": "65bc4d56-5267-8a59-4dcb-ab14d191e29f",
+  "approval_required": "POWER-OFF serverc-vmware-virtual-platform",
+  "kubeconfig_file": "banking-vm.yaml"
+}

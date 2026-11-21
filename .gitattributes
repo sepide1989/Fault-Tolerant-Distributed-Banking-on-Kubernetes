@@ -1,0 +1,10 @@
+*.sh text eol=lf
+*.py text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+# Preserve exact recorded bytes used by audit/restore proof SHA-256 bindings.
+*.json -text whitespace=cr-at-eol
+*.jsonl -text whitespace=cr-at-eol
+*.xml -text whitespace=cr-at-eol
+*.csv -text whitespace=cr-at-eol

@@ -1,0 +1,14 @@
+{
+  "created_utc": "2026-11-15T14:05:51.397141+00:00",
+  "status": "PASS",
+  "scope": "Temporary maintenance pods only; no PVC or host directory removed",
+  "pods_removed": [
+    "banking-maint-b",
+    "banking-maint-c",
+    "banking-maint-cp",
+    "original-maint-b",
+    "original-maint-c",
+    "original-maint-cp"
+  ],
+  "kubeconfig_file": "banking-vm.yaml"
+}

@@ -1,0 +1,44 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: bank-a-daily
+  namespace: banking
+spec:
+  schedule: 0 0 0 * * *
+  immediate: true
+  backupOwnerReference: self
+  cluster:
+    name: bank-a
+  method: plugin
+  pluginConfiguration:
+    name: barman-cloud.cloudnative-pg.io
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: bank-b-daily
+  namespace: banking
+spec:
+  schedule: 0 0 0 * * *
+  immediate: true
+  backupOwnerReference: self
+  cluster:
+    name: bank-b
+  method: plugin
+  pluginConfiguration:
+    name: barman-cloud.cloudnative-pg.io
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: bank-meta-daily
+  namespace: banking
+spec:
+  schedule: 0 0 0 * * *
+  immediate: true
+  backupOwnerReference: self
+  cluster:
+    name: bank-meta
+  method: plugin
+  pluginConfiguration:
+    name: barman-cloud.cloudnative-pg.io

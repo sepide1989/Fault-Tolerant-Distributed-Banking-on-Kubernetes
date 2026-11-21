@@ -1,0 +1,10 @@
+# Reuse the already installed local v3 dependencies for an offline recovery build.
+ARG BASE_IMAGE=banking-app:v3-bootstrapfix1
+FROM ${BASE_IMAGE}
+WORKDIR /app
+COPY bank/ ./bank/
+COPY gateway/ ./gateway/
+COPY bonus/ ./bonus/
+COPY scripts/migrate_recovery_schema.py ./scripts/migrate_recovery_schema.py
+ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1
+CMD ["python", "-m", "gateway.entrypoint_k8s"]

@@ -1,0 +1,96 @@
+{
+  "created_unix": 1794727725.987101,
+  "status": "PARTIAL",
+  "checks": {
+    "/health": {
+      "code": 200,
+      "body": {
+        "ok": true,
+        "service": "gateway"
+      }
+    },
+    "/ready": {
+      "code": 200,
+      "body": {
+        "metadata_available": true,
+        "ok": true,
+        "service": "gateway"
+      }
+    },
+    "/api/topology": {
+      "code": 200,
+      "body": {
+        "replicas": {
+          "A": [
+            "http://bank-a:8000"
+          ],
+          "B": [
+            "http://bank-b:8000"
+          ],
+          "C": [
+            "http://bank-c:8000"
+          ]
+        },
+        "selection": "kubernetes_service_dynamic_endpoints",
+        "shard_map": {
+          "ranges": [
+            {
+              "end": 1000,
+              "epoch": 1,
+              "shard": "A",
+              "start": 1
+            },
+            {
+              "end": 2000,
+              "epoch": 1,
+              "shard": "B",
+              "start": 1001
+            }
+          ],
+          "strategy": "account_numeric_range",
+          "version": 1
+        }
+      }
+    },
+    "/api/transactions/cea8460a4481459aaa7ae6d5cf99083f": {
+      "code": 200,
+      "body": {
+        "acknowledged_by": [],
+        "amount": 1,
+        "decision": "ABORT",
+        "destination": "A1500",
+        "error": "recovered after interruption before commit decision",
+        "phase": "ABORT_DECIDED",
+        "request_id": "k3-load-3e5f5e5f31174931908196460d68bfd5",
+        "source": "A0500",
+        "status": "PENDING",
+        "transaction_id": "cea8460a4481459aaa7ae6d5cf99083f",
+        "votes": {
+          "A": "YES",
+          "B": "YES"
+        }
+      }
+    },
+    "/api/accounts/A0500": {
+      "code": 200,
+      "body": {
+        "account": "A0500",
+        "balance": 1003,
+        "ok": true,
+        "replica": "bank-a-6596f4c747-zrf72",
+        "shard": "A"
+      }
+    },
+    "/api/accounts/A1500": {
+      "code": 200,
+      "body": {
+        "account": "A1500",
+        "balance": 497,
+        "ok": true,
+        "replica": "bank-b-5f787567c4-fc849",
+        "shard": "B"
+      }
+    }
+  },
+  "s3_health": 200
+}

@@ -1,0 +1,18 @@
+{
+  "created_utc": "2026-11-20T09:52:37.036698+00:00",
+  "status": "FAIL",
+  "clusters": {
+    "bank-a": {
+      "restore_name": "bank-a-dr-r2a201126",
+      "source_primary": "bank-a-2",
+      "restore_point": "banking_dr_r2a201126_bank_a_954fbc26"
+    }
+  },
+  "cluster_uids": {
+    "bank-a": "c8388198-2533-4e1d-975c-c7ef865473a3"
+  },
+  "audit_sha256": "0b9382e70939e6f0be462de166d2bd2dd2a822a9a669b0bf3fde46acf688ab41",
+  "source_ha_was_degraded": false,
+  "error": "Error from server (AlreadyExists): error when creating \"STDIN\": clusters.postgresql.cnpg.io \"bank-a-dr-r2a201126\" already exists",
+  "kubeconfig_file": "isolated-kubeconfig.yaml"
+}

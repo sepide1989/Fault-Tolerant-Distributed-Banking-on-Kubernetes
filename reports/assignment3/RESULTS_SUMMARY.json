@@ -1,0 +1,65 @@
+{
+  "created_utc": "2026-11-15T14:05:52.122716+00:00",
+  "operational_status": "PASS",
+  "academic_publication_status": "PARTIAL",
+  "bonuses": {
+    "bonus1": {
+      "status": "PASS",
+      "evidence": "bonus1-20261115-04/result.json",
+      "dataset": "original",
+      "validated_success": 150
+    },
+    "bonus2a": {
+      "status": "PASS",
+      "evidence": "bonus2a-20261115-01/result.json",
+      "dataset": "isolated DR copy",
+      "validated_success": 96
+    },
+    "bonus2b": {
+      "status": "PASS",
+      "evidence": "bonus2b-20261115-01/result.json",
+      "dataset": "isolated DR copy",
+      "validated_success": 400
+    }
+  },
+  "original_cluster": {
+    "audit_pass": true,
+    "preflight_pass": true,
+    "total": 1999500,
+    "accounts": 2000,
+    "pending": 0,
+    "prepared": 0,
+    "image": "banking-app:v3-recovery-20261115-3",
+    "gateway": "http://192.168.43.128:30080",
+    "audit": "original-final-audit.json",
+    "restore_proof": "original-final-restore-proof.json"
+  },
+  "tests": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "25",
+    "time": "9.073",
+    "timestamp": "2026-11-15T17:42:15.973327+03:30",
+    "hostname": "DESKTOP-059ACQN"
+  },
+  "code_git_head": "253b8e4bc017e3b21296c4fbdffe2ba766fe259a",
+  "publication_pending": [
+    "GitHub repository publication: no destination/account supplied",
+    "DockerHub publication: no namespace/account supplied",
+    "20-minute demonstration video not recorded; presentation runbook supplied"
+  ],
+  "disaster_lab": {
+    "status": "LAB_PARKED_ORIGINALS_RUNNING",
+    "originals_parked": false,
+    "active_replacements": {
+      "c": "worker",
+      "cp": "cp"
+    },
+    "bucket": "banking-dr-20261115-lab1",
+    "deleted_worker_copy_still_absent": true,
+    "deleted_cp_copy_still_absent": true,
+    "replacement_vms_preserved": true
+  }
+}

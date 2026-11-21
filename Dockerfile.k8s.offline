@@ -1,0 +1,18 @@
+# Fallback when Docker/Minikube cannot reach PyPI but the Windows host can.
+# First download CPython 3.12 Linux x86_64 wheels into ./wheelhouse.
+FROM python:3.12-slim
+WORKDIR /app
+ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1
+COPY requirements.txt ./
+COPY wheelhouse/ /wheelhouse/
+RUN python -m pip install --no-index --find-links=/wheelhouse -r requirements.txt \
+    && rm -rf /wheelhouse
+COPY bank/ ./bank/
+COPY gateway/ ./gateway/
+COPY bonus/ ./bonus/
+COPY client.py ./client.py
+COPY scripts/migrate_recovery_schema.py ./scripts/migrate_recovery_schema.py
+RUN useradd -u 10001 --create-home bankapp
+USER 10001:10001
+EXPOSE 8000
+CMD ["python", "-m", "gateway.entrypoint_k8s"]

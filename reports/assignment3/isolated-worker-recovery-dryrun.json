@@ -1,0 +1,98 @@
+{
+  "created_utc": "2026-11-15T12:17:30.122972+00:00",
+  "status": "DRY_RUN",
+  "plan": {
+    "lost_node": "serverc-vmware-virtual-platform",
+    "node_uid": "774549da-ac40-4e6a-ac0c-0141543a89e7",
+    "instances": [
+      {
+        "cluster": "bank-a",
+        "cluster_uid": "c8388198-2533-4e1d-975c-c7ef865473a3",
+        "pod": "bank-a-2",
+        "pod_uid": "ab760407-1c67-4820-aa89-dfad94cfe248",
+        "claims": [
+          {
+            "name": "bank-a-2",
+            "uid": "d98abd22-2f83-401f-99b3-368cf4a839c2",
+            "pv": "pvc-d98abd22-2f83-401f-99b3-368cf4a839c2",
+            "pv_uid": "b7ab2e09-1277-48ec-af4b-9b2561085b94"
+          }
+        ],
+        "remote_system_ids": [
+          "7707367486795997204"
+        ]
+      },
+      {
+        "cluster": "bank-a",
+        "cluster_uid": "c8388198-2533-4e1d-975c-c7ef865473a3",
+        "pod": "bank-a-4",
+        "pod_uid": "61d31c23-a697-48a5-bf41-03d5e0f2f722",
+        "claims": [
+          {
+            "name": "bank-a-4",
+            "uid": "03471681-cc7b-4e7c-a133-b3d1fc5f9c85",
+            "pv": "pvc-03471681-cc7b-4e7c-a133-b3d1fc5f9c85",
+            "pv_uid": "33d8fb22-6316-4fed-b55c-34df9bd406fe"
+          }
+        ],
+        "remote_system_ids": [
+          "7707367486795997204"
+        ]
+      },
+      {
+        "cluster": "bank-b",
+        "cluster_uid": "369dab91-0233-4a17-98f5-ec9c7dae400e",
+        "pod": "bank-b-1",
+        "pod_uid": "cc3099e4-f5ed-433e-9f9a-54f0fee934a1",
+        "claims": [
+          {
+            "name": "bank-b-1",
+            "uid": "3056bc26-6911-47d0-bdaa-8e986b8754c9",
+            "pv": "pvc-3056bc26-6911-47d0-bdaa-8e986b8754c9",
+            "pv_uid": "6f04ea78-d8bd-4176-a214-005c2866dedd"
+          }
+        ],
+        "remote_system_ids": [
+          "7707367385818566678"
+        ]
+      },
+      {
+        "cluster": "bank-b",
+        "cluster_uid": "369dab91-0233-4a17-98f5-ec9c7dae400e",
+        "pod": "bank-b-3",
+        "pod_uid": "748541c4-2a02-4973-9bb8-7244d91510bd",
+        "claims": [
+          {
+            "name": "bank-b-3",
+            "uid": "3ed84f56-1330-4094-bb6c-1a11398fbcc1",
+            "pv": "pvc-3ed84f56-1330-4094-bb6c-1a11398fbcc1",
+            "pv_uid": "8e55f90e-d3aa-4f81-9bb9-947a8ad020e6"
+          }
+        ],
+        "remote_system_ids": [
+          "7707367385818566678"
+        ]
+      },
+      {
+        "cluster": "bank-meta",
+        "cluster_uid": "6d455f42-554c-403b-a6b9-ccfecfebf43d",
+        "pod": "bank-meta-1",
+        "pod_uid": "2da35ac5-0341-48d1-9ea3-c1edd7c7807a",
+        "claims": [
+          {
+            "name": "bank-meta-1",
+            "uid": "9f60abac-862a-4bf7-852b-d9a7aee73c77",
+            "pv": "pvc-9f60abac-862a-4bf7-852b-d9a7aee73c77",
+            "pv_uid": "31a73226-3d5e-41f3-ac71-57a67b0932f2"
+          }
+        ],
+        "remote_system_ids": [
+          "7707367378323181588"
+        ]
+      }
+    ]
+  },
+  "plan_sha256": "a3e22fdc1e3f2af04bd11884ebb9f61929e41ccc55c40408fb02f82bb6364844",
+  "required_approval_token": "DELETE-LOST-STORAGE:a3e22fdc1e3f2af04bd11884ebb9f61929e41ccc55c40408fb02f82bb6364844",
+  "kubeconfig_file": "isolated-kubeconfig.yaml"
+}

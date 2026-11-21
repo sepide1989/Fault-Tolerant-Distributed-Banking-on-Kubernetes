@@ -1,0 +1,16 @@
+{
+  "created_utc": "2026-11-15T12:57:17.407804+00:00",
+  "status": "PARTIAL",
+  "backup": "reports/assignment3/control-plane-backup-after-worker-before-cp.json",
+  "restore_output": "snapshot.db: OK\ncontrol-plane.tar: OK\n{\"hash\":1498957473,\"revision\":274065,\"totalKey\":1706,\"totalSize\":64864256,\"version\":\"3.6.0\"}\nPARTIAL: Kubernetes startup initiated. No banking correctness claim yet.\nVerify /readyz, original namespace/Cluster/PVC UIDs, all workers, operators and actual PG roles.\nReconcile stale CNPG state against surviving data before workload rollout; run full baseline+client-ledger audit.\nCreate and delete a disposable stateless pod to prove scheduling/management. Never delete a DB PVC as a scheduling test.",
+  "restored_cluster_uids_match": {
+    "bank-a": true,
+    "bank-b": true,
+    "bank-meta": true
+  },
+  "replacement_hardware_uuid": "56ca4d56-0db9-e7e3-8ca1-5436f8fda5ad",
+  "node_uid": "ec98a295-6b13-46f5-a55a-997f2a6915ff",
+  "api_ready": true,
+  "note": "Management state restored; actual scheduling, workers/PVCs, bank ledgers and all client acknowledgments still require validation.",
+  "kubeconfig_file": "isolated-kubeconfig.yaml"
+}

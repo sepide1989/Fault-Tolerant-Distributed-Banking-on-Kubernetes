@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: migrator
+  namespace: banking
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: migrator
+  template:
+    metadata:
+      labels:
+        app: migrator
+    spec:
+      containers:
+      - name: migrator
+        image: banking-app:v3
+        imagePullPolicy: IfNotPresent
+        command:
+        - python
+        - -m
+        - gateway.entrypoint_k8s
+        env:
+        - name: ROLE
+          value: migrator
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: bank-db-credentials
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: bank-db-credentials
+              key: password
+        ports:
+        - containerPort: 8050
+          name: http
+        resources:
+          requests:
+            cpu: 50m
+            memory: 96Mi
+          limits:
+            cpu: 400m
+            memory: 256Mi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8050
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: migrator
+  namespace: banking
+spec:
+  selector:
+    app: migrator
+  ports:
+  - port: 8050
+    targetPort: 8050

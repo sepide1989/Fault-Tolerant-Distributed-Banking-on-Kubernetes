@@ -1,0 +1,17 @@
+{
+  "created_utc": "2026-11-15T13:03:09.958007+00:00",
+  "status": "FAIL",
+  "clusters": {
+    "bank-a": {
+      "restore_name": "bank-a-dr-afterb1511",
+      "source_primary": "bank-a-1"
+    }
+  },
+  "cluster_uids": {
+    "bank-a": "c8388198-2533-4e1d-975c-c7ef865473a3"
+  },
+  "audit_sha256": "d70fdc235300901ace3754c5f1d815c9d571c922a2cfc0f720a3a93270fc2c9b",
+  "source_ha_was_degraded": false,
+  "error": "bank-a: cutoff WAL not archived",
+  "kubeconfig_file": "isolated-kubeconfig.yaml"
+}

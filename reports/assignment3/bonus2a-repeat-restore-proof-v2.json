@@ -1,0 +1,18 @@
+{
+  "created_utc": "2026-11-20T10:08:46.830230+00:00",
+  "status": "FAIL",
+  "clusters": {
+    "bank-a": {
+      "restore_name": "bank-a-dr-r2b201126",
+      "source_primary": "bank-a-2",
+      "restore_point": "banking_dr_r2b201126_bank_a_02086267"
+    }
+  },
+  "cluster_uids": {
+    "bank-a": "c8388198-2533-4e1d-975c-c7ef865473a3"
+  },
+  "audit_sha256": "0b9382e70939e6f0be462de166d2bd2dd2a822a9a669b0bf3fde46acf688ab41",
+  "source_ha_was_degraded": false,
+  "error": "Error from server (InternalError): error when creating \"STDIN\": Internal error occurred: failed calling webhook \"vcluster.cnpg.io\": failed to call webhook: Post \"https://cnpg-webhook-service.cnpg-system.svc:443/validate-postgresql-cnpg-io-v1-cluster?timeout=10s\": dial tcp 10.105.116.248:443: connect: connection refused",
+  "kubeconfig_file": "isolated-kubeconfig.yaml"
+}

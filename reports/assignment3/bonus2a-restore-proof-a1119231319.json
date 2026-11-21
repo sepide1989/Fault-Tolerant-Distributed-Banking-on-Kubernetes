@@ -1,0 +1,134 @@
+{
+  "created_utc": "2026-11-19T19:43:21.102410+00:00",
+  "status": "PASS",
+  "clusters": {
+    "bank-a": {
+      "restore_name": "bank-a-dr-a1119231319",
+      "source_primary": "bank-a-2",
+      "restore_point": "banking_dr_a1119231319_bank_a_bdfdacfe",
+      "cutoff_lsn": "0/61000090",
+      "archived_wal": "000000100000000000000061",
+      "matches": {
+        "public_table_set": true,
+        "accounts": true,
+        "local_requests": true,
+        "migration_applied": true,
+        "migration_cursor": true,
+        "migration_outbox": true,
+        "ownership": true,
+        "participant_fences": true,
+        "participant_results": true
+      },
+      "restore_pg": {
+        "standby": false,
+        "synchronous_commit": "on",
+        "sync_names": "",
+        "max_prepared": 100,
+        "fsync": "on",
+        "system_id": "7707367486795997204",
+        "timeline": 17,
+        "lsn": "0/6403A000",
+        "replication": [],
+        "wal_receiver": [],
+        "slots": [],
+        "prepared": [],
+        "sync_waiters": 0,
+        "archiver": {
+          "archived_count": 3,
+          "failed_count": 5,
+          "last_archived_wal": "000000110000000000000062",
+          "last_archived_time": "2026-11-19T19:44:16.250936+00:00",
+          "last_failed_time": "2026-11-19T19:44:00.483742+00:00"
+        }
+      }
+    },
+    "bank-b": {
+      "restore_name": "bank-b-dr-a1119231319",
+      "source_primary": "bank-b-1",
+      "restore_point": "banking_dr_a1119231319_bank_b_baeb8acd",
+      "cutoff_lsn": "0/58000090",
+      "archived_wal": "0000000D0000000000000058",
+      "matches": {
+        "public_table_set": true,
+        "accounts": true,
+        "local_requests": true,
+        "migration_applied": true,
+        "migration_cursor": true,
+        "migration_outbox": true,
+        "ownership": true,
+        "participant_fences": true,
+        "participant_results": true
+      },
+      "restore_pg": {
+        "standby": false,
+        "synchronous_commit": "on",
+        "sync_names": "",
+        "max_prepared": 100,
+        "fsync": "on",
+        "system_id": "7707367385818566678",
+        "timeline": 14,
+        "lsn": "0/5B01FC00",
+        "replication": [],
+        "wal_receiver": [],
+        "slots": [],
+        "prepared": [],
+        "sync_waiters": 0,
+        "archiver": {
+          "archived_count": 3,
+          "failed_count": 5,
+          "last_archived_wal": "0000000E0000000000000059",
+          "last_archived_time": "2026-11-19T19:45:34.682168+00:00",
+          "last_failed_time": "2026-11-19T19:45:17.958933+00:00"
+        }
+      }
+    },
+    "bank-meta": {
+      "restore_name": "bank-meta-dr-a1119231319",
+      "source_primary": "bank-meta-2",
+      "restore_point": "banking_dr_a1119231319_bank_meta_3f86a45c",
+      "cutoff_lsn": "0/56000090",
+      "archived_wal": "000000060000000000000056",
+      "matches": {
+        "public_table_set": true,
+        "acknowledgements": true,
+        "legacy_local_requests": true,
+        "map_epoch": true,
+        "migration_job": true,
+        "request_registry": true,
+        "shard_ranges": true,
+        "transactions": true,
+        "votes": true
+      },
+      "restore_pg": {
+        "standby": false,
+        "synchronous_commit": "on",
+        "sync_names": "",
+        "max_prepared": 100,
+        "fsync": "on",
+        "system_id": "7707367378323181588",
+        "timeline": 7,
+        "lsn": "0/5907E120",
+        "replication": [],
+        "wal_receiver": [],
+        "slots": [],
+        "prepared": [],
+        "sync_waiters": 0,
+        "archiver": {
+          "archived_count": 3,
+          "failed_count": 2,
+          "last_archived_wal": "000000070000000000000057",
+          "last_archived_time": "2026-11-19T19:47:46.268145+00:00",
+          "last_failed_time": "2026-11-19T19:47:19.839846+00:00"
+        }
+      }
+    }
+  },
+  "cluster_uids": {
+    "bank-a": "c8388198-2533-4e1d-975c-c7ef865473a3",
+    "bank-b": "369dab91-0233-4a17-98f5-ec9c7dae400e",
+    "bank-meta": "6d455f42-554c-403b-a6b9-ccfecfebf43d"
+  },
+  "audit_sha256": "b2d3fa6ae4a7dac03c84903f6ad0df8800d253ccad63a3d4661567189cca2eec",
+  "source_ha_was_degraded": false,
+  "kubeconfig_file": "isolated-kubeconfig.yaml"
+}

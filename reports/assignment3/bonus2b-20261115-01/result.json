@@ -1,0 +1,270 @@
+{
+  "created_utc": "2026-11-15T12:52:37.970084+00:00",
+  "status": "PASS",
+  "scenario": "II-B",
+  "gateway": "http://192.168.3.131:30080",
+  "destruction_plan": "reports/assignment3/bonus2-b-destruction-plan.json",
+  "control_plane_backup": "reports/assignment3/control-plane-backup-after-worker-before-cp.json",
+  "namespace_uid": "d9525dcc-2976-4442-a50e-971c6137ec5f",
+  "observations": [
+    {
+      "created_utc": "2026-11-15T12:54:19.362841+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:54:25.122957+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:54:30.878942+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_error": "ReadTimeout"
+    },
+    {
+      "created_utc": "2026-11-15T12:54:39.582368+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:54:45.302095+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:54:50.983554+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:54:56.657394+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_error": "ReadTimeout"
+    },
+    {
+      "created_utc": "2026-11-15T12:55:05.318364+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:55:12.549916+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:55:18.303147+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:55:24.862731+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_error": "ReadTimeout"
+    },
+    {
+      "created_utc": "2026-11-15T12:55:34.313578+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:55:40.061321+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:55:45.906953+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:55:51.648804+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:55:57.321900+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_error": "ReadTimeout"
+    },
+    {
+      "created_utc": "2026-11-15T12:56:05.995799+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:56:13.491717+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_error": "ReadTimeout"
+    },
+    {
+      "created_utc": "2026-11-15T12:56:23.023305+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:56:31.677948+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:56:40.389375+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:56:47.291102+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_error": "ConnectTimeout"
+    },
+    {
+      "created_utc": "2026-11-15T12:56:56.239585+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_error": "ConnectTimeout"
+    },
+    {
+      "created_utc": "2026-11-15T12:57:06.003217+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_error": "ConnectTimeout"
+    },
+    {
+      "created_utc": "2026-11-15T12:57:14.712221+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_error": "ConnectTimeout"
+    },
+    {
+      "created_utc": "2026-11-15T12:57:23.126813+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_error": "ConnectTimeout"
+    },
+    {
+      "created_utc": "2026-11-15T12:57:31.534737+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:57:36.916228+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:57:42.411252+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:57:47.791295+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:57:53.189931+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:57:58.653551+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:58:04.275149+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:58:09.692984+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:58:15.138716+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:58:20.557614+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:58:25.953685+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:58:31.399440+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    },
+    {
+      "created_utc": "2026-11-15T12:58:36.837141+00:00",
+      "both_worker_vms_running": true,
+      "gateway_health_http": 200
+    }
+  ],
+  "approval_scope": "User explicitly approved deletion of this isolated CP VM and disks only. Worker data/PVCs/original VMs excluded.",
+  "permanent_loss": {
+    "status": "PERMANENT_VM_LOSS_INJECTED",
+    "target": "C:\\Users\\Surface Studio\\Documents\\Virtual Machines\\Banking_DR_Isolated_20261115-lab1\\cp",
+    "vmx": "C:\\Users\\Surface Studio\\Documents\\Virtual Machines\\Banking_DR_Isolated_20261115-lab1\\cp\\banking-dr-cp.vmx",
+    "raw_bios_uuid": "56 4d 2f 1c 08 b4 6d f3-9f 11 13 24 c0 2a 6f a6",
+    "disks": [
+      "C:\\Users\\Surface Studio\\Documents\\Virtual Machines\\Banking_DR_Isolated_20261115-lab1\\cp\\Ubuntu 64-bit-cl1.vmdk"
+    ],
+    "required_token": "DESTROY-ISOLATED-CP:564d2f1c08b46df39f111324c02a6fa6",
+    "original_vm_files_deleted": false,
+    "injected_utc": "2026-11-15T12:54:17.3362411Z"
+  },
+  "failure_utc": "2026-11-15T12:54:17.3362411Z",
+  "kubeconfig_file": "isolated-kubeconfig.yaml",
+  "load": {
+    "run_id": "bonus2b-20261115-01",
+    "seed": 29,
+    "counts": {
+      "200": 400,
+      "validated_success": 400,
+      "202": 1,
+      "not_success": 79,
+      "503": 28,
+      "transport": 50
+    },
+    "log": "reports\\assignment3\\bonus2b-20261115-01\\load.jsonl",
+    "note": "Unknown responses require DB audit; HTTP counters are not correctness proof."
+  },
+  "note": "Physical CP loss recorded. Management restore, original resources/PVCs, new scheduling and full request-ledger audit still required.",
+  "checks": {
+    "permanent_cp_vm_and_disks_removed": true,
+    "original_vm_files_preserved": true,
+    "replacement_has_new_hardware_identity": true,
+    "actual_etcd_pki_archive_restore": true,
+    "original_resources_and_new_scheduling_verified": true,
+    "workers_survived": true,
+    "full_client_and_ledger_audit": true,
+    "production_replication_and_backup_healthy": true,
+    "fresh_all_database_restore_includes_post_failure_history": true,
+    "same_database_lineage": true
+  },
+  "final_verified_utc": "2026-11-15T13:22:01.506169+00:00",
+  "final_audit": "reports\\assignment3\\bonus2b-20261115-01\\after.json",
+  "management_proof": "reports\\assignment3\\bonus2b-20261115-01\\management-verification.json",
+  "primary_changes": {
+    "bank-a": {
+      "before": "bank-a-1",
+      "after": "bank-a-1"
+    },
+    "bank-b": {
+      "before": "bank-b-2",
+      "after": "bank-b-2"
+    },
+    "bank-meta": {
+      "before": "bank-meta-2",
+      "after": "bank-meta-2"
+    }
+  },
+  "limitations": [
+    "Client availability was interrupted. Timeouts, 202 and 503 were not counted as success.",
+    "Historical standalone drill claims on the previously lost worker remain retained/unavailable, separately from the nine healthy production instances."
+  ],
+  "final_preflight": "reports\\assignment3\\bonus2b-20261115-01\\final-preflight-stable.json"
+}

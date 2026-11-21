@@ -1,0 +1,11 @@
+{
+  "created_utc": "2026-11-15T12:33:51.941406+00:00",
+  "status": "PASS",
+  "scope": "cold preservation only; not a healthy standby restore",
+  "archive": "reports\\assignment3\\private\\bank-meta-1-retained-20261115.tar.gz",
+  "sha256": "1baa58746d73c2c9238795b4489ddb7f68a7e2109bdce77a37b87502c31b09f3",
+  "pvc_uid": "d0b905e4-4510-4856-b4b3-1691067b1eec",
+  "pv_uid": "03b04b07-e348-4140-a7bd-415c63afbd5d",
+  "data_unchanged": true,
+  "kubeconfig_file": "isolated-kubeconfig.yaml"
+}

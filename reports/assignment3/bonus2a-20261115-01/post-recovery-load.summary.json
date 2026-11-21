@@ -1,0 +1,10 @@
+{
+  "run_id": "bonus2a-post-recovery",
+  "seed": 71,
+  "counts": {
+    "200": 24,
+    "validated_success": 24
+  },
+  "log": "reports\\assignment3\\bonus2a-20261115-01\\post-recovery-load.jsonl",
+  "note": "Unknown responses require DB audit; HTTP counters are not correctness proof."
+}

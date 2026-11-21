@@ -1,0 +1,15 @@
+{
+  "created_utc": "2026-11-15T09:59:41.899702+00:00",
+  "status": "PARTIAL",
+  "role": "cp",
+  "vmx": "C:\\Users\\Surface Studio\\Documents\\Virtual Machines\\Banking_DR_Isolated_20261115-lab1\\replacements\\cp\\replacement-cp.vmx",
+  "hostname": "ubuntuserver-vmware-virtual-platform",
+  "source_os": "C:\\Users\\Surface Studio\\Documents\\Virtual Machines\\Ubuntu 64-bit\\Ubuntu 64-bit.vmx",
+  "recovery_data_source": "surviving database replicas / separately verified etcd archive",
+  "preparation": "Prepared clean replacement; source cluster identity/data quarantined.",
+  "hardware_identities": [
+    "564dca56-b90d-e3e7-8ca1-5436f8fda5ad",
+    "56ca4d56-0db9-e7e3-8ca1-5436f8fda5ad"
+  ],
+  "note": "OS replacement prepared, not joined/restored. Banking correctness requires the actual permanent-loss experiment."
+}

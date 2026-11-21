@@ -1,0 +1,141 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bank-a
+  namespace: banking
+spec:
+  replicas: 2
+  revisionHistoryLimit: 5
+  strategy: {type: RollingUpdate, rollingUpdate: {maxSurge: 1, maxUnavailable: 0}}
+  selector: {matchLabels: {app: bank-a}}
+  template:
+    metadata: {labels: {app: bank-a}}
+    spec:
+      terminationGracePeriodSeconds: 65
+      topologySpreadConstraints:
+      - {maxSkew: 1, topologyKey: kubernetes.io/hostname, whenUnsatisfiable: ScheduleAnyway, labelSelector: {matchLabels: {app: bank-a}}}
+      containers:
+      - name: bank
+        image: banking-app:v3
+        imagePullPolicy: IfNotPresent
+        command: ['python','-m','gateway.entrypoint_k8s']
+        ports: [{containerPort: 8000, name: http}]
+        envFrom:
+        - configMapRef: {name: bank-runtime-config}
+        env:
+        - {name: ROLE, value: bank}
+        - {name: SHARD_ID, value: A}
+        - {name: REPLICA_ID, valueFrom: {fieldRef: {fieldPath: metadata.name}}}
+        - {name: ENABLE_CPU_LOAD_ENDPOINT, value: '1'}
+        - {name: DB_USER, valueFrom: {secretKeyRef: {name: bank-db-credentials, key: username}}}
+        - {name: DB_PASSWORD, valueFrom: {secretKeyRef: {name: bank-db-credentials, key: password}}}
+        resources: {requests: {cpu: 50m, memory: 96Mi}, limits: {cpu: 500m, memory: 256Mi}}
+        startupProbe: {httpGet: {path: /live, port: 8000}, periodSeconds: 3, failureThreshold: 30}
+        livenessProbe: {httpGet: {path: /live, port: 8000}, periodSeconds: 10, failureThreshold: 3}
+        readinessProbe: {httpGet: {path: /health, port: 8000}, periodSeconds: 3, failureThreshold: 2}
+        lifecycle: {preStop: {exec: {command: ['/bin/sh','-c','sleep 8']}}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bank-b
+  namespace: banking
+spec:
+  replicas: 2
+  revisionHistoryLimit: 5
+  strategy: {type: RollingUpdate, rollingUpdate: {maxSurge: 1, maxUnavailable: 0}}
+  selector: {matchLabels: {app: bank-b}}
+  template:
+    metadata: {labels: {app: bank-b}}
+    spec:
+      terminationGracePeriodSeconds: 65
+      topologySpreadConstraints:
+      - {maxSkew: 1, topologyKey: kubernetes.io/hostname, whenUnsatisfiable: ScheduleAnyway, labelSelector: {matchLabels: {app: bank-b}}}
+      containers:
+      - name: bank
+        image: banking-app:v3
+        imagePullPolicy: IfNotPresent
+        command: ['python','-m','gateway.entrypoint_k8s']
+        ports: [{containerPort: 8000, name: http}]
+        envFrom:
+        - configMapRef: {name: bank-runtime-config}
+        env:
+        - {name: ROLE, value: bank}
+        - {name: SHARD_ID, value: B}
+        - {name: REPLICA_ID, valueFrom: {fieldRef: {fieldPath: metadata.name}}}
+        - {name: ENABLE_CPU_LOAD_ENDPOINT, value: '1'}
+        - {name: DB_USER, valueFrom: {secretKeyRef: {name: bank-db-credentials, key: username}}}
+        - {name: DB_PASSWORD, valueFrom: {secretKeyRef: {name: bank-db-credentials, key: password}}}
+        resources: {requests: {cpu: 50m, memory: 96Mi}, limits: {cpu: 500m, memory: 256Mi}}
+        startupProbe: {httpGet: {path: /live, port: 8000}, periodSeconds: 3, failureThreshold: 30}
+        livenessProbe: {httpGet: {path: /live, port: 8000}, periodSeconds: 10, failureThreshold: 3}
+        readinessProbe: {httpGet: {path: /health, port: 8000}, periodSeconds: 3, failureThreshold: 2}
+        lifecycle: {preStop: {exec: {command: ['/bin/sh','-c','sleep 8']}}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+  namespace: banking
+spec:
+  replicas: 2
+  revisionHistoryLimit: 5
+  strategy: {type: RollingUpdate, rollingUpdate: {maxSurge: 1, maxUnavailable: 0}}
+  selector: {matchLabels: {app: gateway}}
+  template:
+    metadata: {labels: {app: gateway}}
+    spec:
+      terminationGracePeriodSeconds: 65
+      topologySpreadConstraints:
+      - {maxSkew: 1, topologyKey: kubernetes.io/hostname, whenUnsatisfiable: ScheduleAnyway, labelSelector: {matchLabels: {app: gateway}}}
+      containers:
+      - name: gateway
+        image: banking-app:v3
+        imagePullPolicy: IfNotPresent
+        command: ['python','-m','gateway.entrypoint_k8s']
+        ports: [{containerPort: 8000, name: http}]
+        env:
+        - {name: ROLE, value: gateway}
+        - {name: ENABLE_DEMO_ENDPOINTS, value: '0'}
+        - {name: ROUTING_MODE, value: kubernetes_service_dynamic_endpoints}
+        - {name: REPLICAS_A, value: 'http://bank-a:8000'}
+        - {name: REPLICAS_B, value: 'http://bank-b:8000'}
+        - {name: REPLICAS_C, value: 'http://bank-c:8000'}
+        - {name: DB_USER, valueFrom: {secretKeyRef: {name: bank-db-credentials, key: username}}}
+        - {name: DB_PASSWORD, valueFrom: {secretKeyRef: {name: bank-db-credentials, key: password}}}
+        resources: {requests: {cpu: 60m, memory: 128Mi}, limits: {cpu: 500m, memory: 320Mi}}
+        startupProbe: {httpGet: {path: /health, port: 8000}, periodSeconds: 3, failureThreshold: 30}
+        livenessProbe: {httpGet: {path: /health, port: 8000}, periodSeconds: 10, failureThreshold: 3}
+        readinessProbe: {httpGet: {path: /ready, port: 8000}, periodSeconds: 4, failureThreshold: 2}
+        lifecycle: {preStop: {exec: {command: ['/bin/sh','-c','sleep 8']}}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coordinator-recovery
+  namespace: banking
+spec:
+  replicas: 2
+  strategy: {type: RollingUpdate, rollingUpdate: {maxSurge: 1, maxUnavailable: 0}}
+  selector: {matchLabels: {app: coordinator-recovery}}
+  template:
+    metadata: {labels: {app: coordinator-recovery}}
+    spec:
+      terminationGracePeriodSeconds: 30
+      topologySpreadConstraints:
+      - {maxSkew: 1, topologyKey: kubernetes.io/hostname, whenUnsatisfiable: ScheduleAnyway, labelSelector: {matchLabels: {app: coordinator-recovery}}}
+      containers:
+      - name: recovery
+        image: banking-app:v3
+        imagePullPolicy: IfNotPresent
+        command: ['python','-m','gateway.entrypoint_k8s']
+        envFrom:
+        - configMapRef: {name: bank-runtime-config}
+        env:
+        - {name: ROLE, value: recovery}
+        - {name: REPLICAS_A, value: 'http://bank-a:8000'}
+        - {name: REPLICAS_B, value: 'http://bank-b:8000'}
+        - {name: REPLICAS_C, value: 'http://bank-c:8000'}
+        - {name: DB_USER, valueFrom: {secretKeyRef: {name: bank-db-credentials, key: username}}}
+        - {name: DB_PASSWORD, valueFrom: {secretKeyRef: {name: bank-db-credentials, key: password}}}
+        resources: {requests: {cpu: 30m, memory: 64Mi}, limits: {cpu: 250m, memory: 192Mi}}

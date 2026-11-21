@@ -1,0 +1,13 @@
+# Non-secret runtime settings. Durable shard ownership remains in metadata PostgreSQL.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bank-runtime-config
+  namespace: banking
+data:
+  PREPARE_LOCK_TIMEOUT: "5s"
+  DB_STATEMENT_TIMEOUT_MS: "7000"
+  DB_LOCK_TIMEOUT_MS: "3000"
+  DB_OPERATION_TIMEOUT_SECONDS: "10"
+  DB_IDLE_SESSION_TIMEOUT_MS: "45000"
+  RECOVERY_STALE_SECONDS: "30"

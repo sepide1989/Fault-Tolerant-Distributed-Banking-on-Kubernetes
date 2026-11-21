@@ -1,0 +1,96 @@
+# DR EXERCISE ONLY. Creates parallel -restore clusters. NEVER patch active DB with this file.
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: bank-a-restore
+  namespace: banking
+spec:
+  instances: 3
+  imageName: ghcr.io/cloudnative-pg/postgresql:17-minimal-trixie
+  bootstrap:
+    recovery:
+      source: original
+  externalClusters:
+  - name: original
+    plugin:
+      name: barman-cloud.cloudnative-pg.io
+      parameters:
+        barmanObjectName: bank-a-store
+        serverName: bank-a
+  storage:
+    size: 2Gi
+    storageClass: local-path
+  affinity:
+    nodeSelector:
+      banking-worker: 'true'
+  postgresql:
+    parameters:
+      max_prepared_transactions: '100'
+    synchronous:
+      method: any
+      number: 2
+      dataDurability: required
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: bank-b-restore
+  namespace: banking
+spec:
+  instances: 3
+  imageName: ghcr.io/cloudnative-pg/postgresql:17-minimal-trixie
+  bootstrap:
+    recovery:
+      source: original
+  externalClusters:
+  - name: original
+    plugin:
+      name: barman-cloud.cloudnative-pg.io
+      parameters:
+        barmanObjectName: bank-b-store
+        serverName: bank-b
+  storage:
+    size: 2Gi
+    storageClass: local-path
+  affinity:
+    nodeSelector:
+      banking-worker: 'true'
+  postgresql:
+    parameters:
+      max_prepared_transactions: '100'
+    synchronous:
+      method: any
+      number: 2
+      dataDurability: required
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: bank-meta-restore
+  namespace: banking
+spec:
+  instances: 3
+  imageName: ghcr.io/cloudnative-pg/postgresql:17-minimal-trixie
+  bootstrap:
+    recovery:
+      source: original
+  externalClusters:
+  - name: original
+    plugin:
+      name: barman-cloud.cloudnative-pg.io
+      parameters:
+        barmanObjectName: bank-meta-store
+        serverName: bank-meta
+  storage:
+    size: 2Gi
+    storageClass: local-path
+  affinity:
+    nodeSelector:
+      banking-worker: 'true'
+  postgresql:
+    parameters:
+      max_prepared_transactions: '100'
+    synchronous:
+      method: any
+      number: 2
+      dataDurability: required

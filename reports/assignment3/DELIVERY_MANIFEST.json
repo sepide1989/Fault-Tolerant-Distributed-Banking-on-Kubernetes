@@ -1,0 +1,15 @@
+{
+  "created_utc": "2026-11-15T14:49:05.949692+00:00",
+  "banking_code_revision": "bf37f1a",
+  "latest_functional_tools_revision": "253b8e4",
+  "evidence_revision": "62b54a2",
+  "image": "banking-app:v3-recovery-20261115-3",
+  "image_config_id": "sha256:118aeaad37558af78bcd4f228205ae0e4683da3c434a3e25b86dca5063cddaa7",
+  "image_archive_path_in_zip": "images/banking-app-v3-recovery-20261115-3.tar",
+  "image_archive_sha256": "5fb805faa9ce2a358c00cd357ef47d06b2f50f42c88e4baba953def4d0244bfc",
+  "public_package": "Git-tracked project, reports and Docker image; no private kubeconfigs, SSH keys, PKI archives or passphrases",
+  "source_ubuntu_project": "/home/ubuntuserver/Desktop/Assignment3_FaultTolerant_Banking_BootstrapFix_v3",
+  "operational_results": "RESULTS_SUMMARY.json",
+  "tests_passed": 25,
+  "github_dockerhub_video": "Not published/recorded; account destinations not supplied and presentation guide provided"
+}

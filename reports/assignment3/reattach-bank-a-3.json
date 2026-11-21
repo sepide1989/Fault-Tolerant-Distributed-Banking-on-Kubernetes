@@ -1,0 +1,50 @@
+{
+  "created_utc": "2026-11-19T20:37:59.672760+00:00",
+  "status": "PARTIAL",
+  "cluster": "bank-a",
+  "pvc_uid": "a5d0240d-aa39-4f76-9975-a0334361e323",
+  "job_uid": "79cc98de-47f8-434b-a157-33b9568fbcb9",
+  "verification": "backup successfully verified",
+  "primary": {
+    "standby": false,
+    "synchronous_commit": "on",
+    "sync_names": "ANY 2 (\"bank-a-2\",\"bank-a-1\")",
+    "max_prepared": 100,
+    "fsync": "on",
+    "system_id": "7707367486795997204",
+    "timeline": 17,
+    "lsn": "0/6A000720",
+    "replication": [
+      {
+        "application_name": "bank-a-2",
+        "state": "streaming",
+        "sync_state": "quorum",
+        "sent_lsn": "0/6A000720",
+        "write_lsn": "0/6A000720",
+        "flush_lsn": "0/6A000720",
+        "replay_lsn": "0/6A000720"
+      }
+    ],
+    "wal_receiver": [],
+    "slots": [
+      {
+        "slot_name": "_cnpg_bank_a_2",
+        "slot_type": "physical",
+        "active": true,
+        "restart_lsn": "0/6A000720",
+        "wal_status": "reserved",
+        "safe_wal_size": null
+      }
+    ],
+    "prepared": [],
+    "sync_waiters": 1,
+    "archiver": {
+      "archived_count": 11,
+      "failed_count": 1,
+      "last_archived_wal": "000000110000000000000069",
+      "last_archived_time": "2026-11-19T20:37:48.053553+00:00",
+      "last_failed_time": "2026-11-19T20:15:02.641003+00:00"
+    }
+  },
+  "kubeconfig_file": "isolated-kubeconfig.yaml"
+}

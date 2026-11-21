@@ -1,0 +1,12 @@
+{
+  "created_utc": "2026-11-15T07:58:33.581356+00:00",
+  "status": "PARTIAL",
+  "retained_pvc": "bank-a-3",
+  "pvc_uid": "a5d0240d-aa39-4f76-9975-a0334361e323",
+  "remaining_instances": [
+    "bank-a-1",
+    "bank-a-2",
+    "bank-a-4"
+  ],
+  "primary": "bank-a-2"
+}

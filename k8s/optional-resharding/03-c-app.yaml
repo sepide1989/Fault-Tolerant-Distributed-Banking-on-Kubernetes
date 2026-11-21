@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bank-c
+  namespace: banking
+spec:
+  replicas: 2
+  revisionHistoryLimit: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: bank-c
+  template:
+    metadata:
+      labels:
+        app: bank-c
+    spec:
+      terminationGracePeriodSeconds: 65
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+          matchLabels:
+            app: bank-c
+      containers:
+      - name: bank
+        image: banking-app:v3
+        imagePullPolicy: IfNotPresent
+        command:
+        - python
+        - -m
+        - gateway.entrypoint_k8s
+        ports:
+        - containerPort: 8000
+          name: http
+        env:
+        - name: ROLE
+          value: bank
+        - name: SHARD_ID
+          value: C
+        - name: REPLICA_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: ENABLE_CPU_LOAD_ENDPOINT
+          value: '1'
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: bank-db-credentials
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: bank-db-credentials
+              key: password
+        resources:
+          requests:
+            cpu: 50m
+            memory: 96Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi
+        startupProbe:
+          httpGet:
+            path: /live
+            port: 8000
+          periodSeconds: 3
+          failureThreshold: 30
+        livenessProbe:
+          httpGet:
+            path: /live
+            port: 8000
+          periodSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          periodSeconds: 3
+          failureThreshold: 2
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - sleep 8

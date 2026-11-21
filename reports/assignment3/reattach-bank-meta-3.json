@@ -1,0 +1,49 @@
+{
+  "created_utc": "2026-11-15T07:45:13.007576+00:00",
+  "status": "PARTIAL",
+  "cluster": "bank-meta",
+  "pvc_uid": "c569b923-4f07-42b8-abee-cfe115f10441",
+  "job_uid": "8d6ac097-a996-4f90-8c8e-472092444396",
+  "verification": "backup successfully verified",
+  "primary": {
+    "standby": false,
+    "synchronous_commit": "on",
+    "sync_names": "ANY 2 (\"bank-meta-2\",\"bank-meta-1\")",
+    "max_prepared": 100,
+    "fsync": "on",
+    "system_id": "7707367378323181588",
+    "timeline": 5,
+    "lsn": "0/2B0178E8",
+    "replication": [
+      {
+        "application_name": "bank-meta-2",
+        "state": "streaming",
+        "sync_state": "quorum",
+        "sent_lsn": "0/2B0178E8",
+        "write_lsn": "0/2B0178E8",
+        "flush_lsn": "0/2B0178E8",
+        "replay_lsn": "0/2B0178E8"
+      }
+    ],
+    "wal_receiver": [],
+    "slots": [
+      {
+        "slot_name": "_cnpg_bank_meta_2",
+        "slot_type": "physical",
+        "active": true,
+        "restart_lsn": "0/2B0178E8",
+        "wal_status": "reserved",
+        "safe_wal_size": null
+      }
+    ],
+    "prepared": [],
+    "sync_waiters": 5,
+    "archiver": {
+      "archived_count": 16,
+      "failed_count": 72,
+      "last_archived_wal": "00000005000000000000002A",
+      "last_archived_time": "2026-11-15T07:41:12.577912+00:00",
+      "last_failed_time": "2026-11-15T07:06:49.664993+00:00"
+    }
+  }
+}

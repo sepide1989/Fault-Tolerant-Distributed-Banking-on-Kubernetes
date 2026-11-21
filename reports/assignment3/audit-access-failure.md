@@ -1,0 +1,13 @@
+# Banking evidence
+
+UTC: 2026-11-15T07:39:41.299357+00:00
+
+Result: FAIL
+
+
+kubectl get cluster bank-a -o jsonpath={.status.currentPrimary}: E1115 11:09:41.283790   16400 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:59317/api?timeout=32s\": dial tcp 127.0.0.1:59317: connectex: No connection could be made because the target machine actively refused it."
+E1115 11:09:41.285375   16400 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:59317/api?timeout=32s\": dial tcp 127.0.0.1:59317: connectex: No connection could be made because the target machine actively refused it."
+E1115 11:09:41.286462   16400 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:59317/api?timeout=32s\": dial tcp 127.0.0.1:59317: connectex: No connection could be made because the target machine actively refused it."
+E1115 11:09:41.288091   16400 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:59317/api?timeout=32s\": dial tcp 127.0.0.1:59317: connectex: No connection could be made because the target machine actively refused it."
+E1115 11:09:41.289200   16400 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:59317/api?timeout=32s\": dial tcp 127.0.0.1:59317: connectex: No connection could be made because the target machine actively refused it."
+Unable to connect to the server: dial tcp 127.0.0.1:59317: connectex: No connection could be made because the target machine actively refused it.

@@ -1,0 +1,112 @@
+{
+  "created_utc": "2026-11-15T07:53:52.915608+00:00",
+  "status": "PASS",
+  "clusters": {
+    "bank-a": {
+      "restore_name": "bank-a-dr-v20261115",
+      "source_primary": "bank-a-2",
+      "cutoff_lsn": "0/2C000110",
+      "archived_wal": "00000004000000000000002C",
+      "matches": {
+        "accounts": true,
+        "local_requests": true,
+        "participant_results": true
+      },
+      "restore_pg": {
+        "standby": false,
+        "synchronous_commit": "on",
+        "sync_names": "",
+        "max_prepared": 100,
+        "fsync": "on",
+        "system_id": "7707367486795997204",
+        "timeline": 5,
+        "lsn": "0/3001C000",
+        "replication": [],
+        "wal_receiver": [],
+        "slots": [],
+        "prepared": [],
+        "sync_waiters": 0,
+        "archiver": {
+          "archived_count": 3,
+          "failed_count": 5,
+          "last_archived_wal": "00000005000000000000002E",
+          "last_archived_time": "2026-11-15T07:54:33.380291+00:00",
+          "last_failed_time": "2026-11-15T07:54:23.417406+00:00"
+        }
+      }
+    },
+    "bank-b": {
+      "restore_name": "bank-b-dr-v20261115",
+      "source_primary": "bank-b-1",
+      "cutoff_lsn": "0/24001490",
+      "archived_wal": "000000010000000000000024",
+      "matches": {
+        "accounts": true,
+        "local_requests": true,
+        "participant_results": true
+      },
+      "restore_pg": {
+        "standby": false,
+        "synchronous_commit": "on",
+        "sync_names": "",
+        "max_prepared": 100,
+        "fsync": "on",
+        "system_id": "7707367385818566678",
+        "timeline": 2,
+        "lsn": "0/2801C000",
+        "replication": [],
+        "wal_receiver": [],
+        "slots": [],
+        "prepared": [],
+        "sync_waiters": 0,
+        "archiver": {
+          "archived_count": 3,
+          "failed_count": 5,
+          "last_archived_wal": "000000020000000000000026",
+          "last_archived_time": "2026-11-15T07:55:44.755084+00:00",
+          "last_failed_time": "2026-11-15T07:55:33.80465+00:00"
+        }
+      }
+    },
+    "bank-meta": {
+      "restore_name": "bank-meta-dr-v20261115",
+      "source_primary": "bank-meta-1",
+      "cutoff_lsn": "0/2D008C10",
+      "archived_wal": "00000005000000000000002D",
+      "matches": {
+        "transactions": true,
+        "votes": true,
+        "acknowledgements": true
+      },
+      "restore_pg": {
+        "standby": false,
+        "synchronous_commit": "on",
+        "sync_names": "",
+        "max_prepared": 100,
+        "fsync": "on",
+        "system_id": "7707367378323181588",
+        "timeline": 6,
+        "lsn": "0/310282A8",
+        "replication": [],
+        "wal_receiver": [],
+        "slots": [],
+        "prepared": [],
+        "sync_waiters": 0,
+        "archiver": {
+          "archived_count": 3,
+          "failed_count": 3,
+          "last_archived_wal": "00000006000000000000002F",
+          "last_archived_time": "2026-11-15T07:57:00.075484+00:00",
+          "last_failed_time": "2026-11-15T07:56:49.90933+00:00"
+        }
+      }
+    }
+  },
+  "cluster_uids": {
+    "bank-a": "c8388198-2533-4e1d-975c-c7ef865473a3",
+    "bank-b": "369dab91-0233-4a17-98f5-ec9c7dae400e",
+    "bank-meta": "6d455f42-554c-403b-a6b9-ccfecfebf43d"
+  },
+  "audit_sha256": "3ab30b8ebea7c9c39938e918d8e956d755590d84544d305c2c281d0356b27723",
+  "source_ha_was_degraded": true
+}

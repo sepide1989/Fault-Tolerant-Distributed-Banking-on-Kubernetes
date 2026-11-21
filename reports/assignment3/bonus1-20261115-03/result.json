@@ -1,0 +1,8 @@
+{
+  "created_utc": "2026-11-15T08:28:32.936897+00:00",
+  "status": "FAIL",
+  "failure": "reversible worker hard power-off",
+  "lost_node": "serverc-vmware-virtual-platform",
+  "observations": [],
+  "error": "Error: The VMware Tools are not running in the virtual machine: C:\\Users\\Surface Studio\\Documents\\Virtual Machines\\ServerC\\ServerC.vmx\n"
+}

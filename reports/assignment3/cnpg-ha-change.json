@@ -1,0 +1,225 @@
+{
+  "created_utc": "2026-11-15T08:02:05.658457+00:00",
+  "status": "PARTIAL",
+  "operator_image": "ghcr.io/cloudnative-pg/cloudnative-pg:1.30.1",
+  "before": {
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+      "creationTimestamp": "2026-11-12T18:41:44Z",
+      "generation": 1,
+      "labels": {
+        "app.kubernetes.io/name": "cloudnative-pg"
+      },
+      "name": "cnpg-controller-manager",
+      "namespace": "cnpg-system",
+      "resourceVersion": "122812",
+      "uid": "919b2242-490b-4ad3-bdd5-fdacc7e519f0"
+    },
+    "spec": {
+      "progressDeadlineSeconds": 600,
+      "replicas": 1,
+      "revisionHistoryLimit": 10,
+      "selector": {
+        "matchLabels": {
+          "app.kubernetes.io/name": "cloudnative-pg"
+        }
+      },
+      "strategy": {
+        "rollingUpdate": {
+          "maxSurge": "25%",
+          "maxUnavailable": "25%"
+        },
+        "type": "RollingUpdate"
+      },
+      "template": {
+        "metadata": {
+          "labels": {
+            "app.kubernetes.io/name": "cloudnative-pg"
+          }
+        },
+        "spec": {
+          "containers": [
+            {
+              "args": [
+                "controller",
+                "--leader-elect",
+                "--max-concurrent-reconciles=10",
+                "--config-map-name=cnpg-controller-manager-config",
+                "--secret-name=cnpg-controller-manager-config",
+                "--webhook-port=9443"
+              ],
+              "command": [
+                "/manager"
+              ],
+              "image": "ghcr.io/cloudnative-pg/cloudnative-pg:1.30.1",
+              "imagePullPolicy": "Always",
+              "livenessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/readyz",
+                  "port": 9443,
+                  "scheme": "HTTPS"
+                },
+                "periodSeconds": 10,
+                "successThreshold": 1,
+                "timeoutSeconds": 1
+              },
+              "name": "manager",
+              "ports": [
+                {
+                  "containerPort": 8080,
+                  "name": "metrics",
+                  "protocol": "TCP"
+                },
+                {
+                  "containerPort": 9443,
+                  "name": "webhook-server",
+                  "protocol": "TCP"
+                }
+              ],
+              "readinessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/readyz",
+                  "port": 9443,
+                  "scheme": "HTTPS"
+                },
+                "periodSeconds": 10,
+                "successThreshold": 1,
+                "timeoutSeconds": 1
+              },
+              "resources": {
+                "limits": {
+                  "cpu": "100m",
+                  "memory": "200Mi"
+                },
+                "requests": {
+                  "cpu": "100m",
+                  "memory": "100Mi"
+                }
+              },
+              "securityContext": {
+                "allowPrivilegeEscalation": false,
+                "capabilities": {
+                  "drop": [
+                    "ALL"
+                  ]
+                },
+                "readOnlyRootFilesystem": true,
+                "runAsGroup": 10001,
+                "runAsUser": 10001,
+                "seccompProfile": {
+                  "type": "RuntimeDefault"
+                }
+              },
+              "startupProbe": {
+                "failureThreshold": 6,
+                "httpGet": {
+                  "path": "/readyz",
+                  "port": 9443,
+                  "scheme": "HTTPS"
+                },
+                "periodSeconds": 5,
+                "successThreshold": 1,
+                "timeoutSeconds": 1
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [
+                {
+                  "mountPath": "/controller",
+                  "name": "scratch-data"
+                },
+                {
+                  "mountPath": "/run/secrets/cnpg.io/webhook",
+                  "name": "webhook-certificates"
+                }
+              ]
+            }
+          ],
+          "dnsPolicy": "ClusterFirst",
+          "restartPolicy": "Always",
+          "schedulerName": "default-scheduler",
+          "securityContext": {
+            "runAsNonRoot": true,
+            "seccompProfile": {
+              "type": "RuntimeDefault"
+            }
+          },
+          "serviceAccount": "cnpg-manager",
+          "serviceAccountName": "cnpg-manager",
+          "terminationGracePeriodSeconds": 10,
+          "volumes": [
+            {
+              "emptyDir": {},
+              "name": "scratch-data"
+            },
+            {
+              "name": "webhook-certificates",
+              "secret": {
+                "defaultMode": 420,
+                "optional": true,
+                "secretName": "cnpg-webhook-cert"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "status": {
+      "availableReplicas": 1,
+      "conditions": [
+        {
+          "lastTransitionTime": "2026-11-12T18:41:44Z",
+          "lastUpdateTime": "2026-11-12T18:42:16Z",
+          "message": "ReplicaSet \"cnpg-controller-manager-85b486954d\" has successfully progressed.",
+          "reason": "NewReplicaSetAvailable",
+          "status": "True",
+          "type": "Progressing"
+        },
+        {
+          "lastTransitionTime": "2026-11-15T06:35:35Z",
+          "lastUpdateTime": "2026-11-15T06:35:35Z",
+          "message": "Deployment has minimum availability.",
+          "reason": "MinimumReplicasAvailable",
+          "status": "True",
+          "type": "Available"
+        }
+      ],
+      "observedGeneration": 1,
+      "readyReplicas": 1,
+      "replicas": 1,
+      "terminatingReplicas": 0,
+      "updatedReplicas": 1
+    }
+  },
+  "patch": {
+    "spec": {
+      "replicas": 2,
+      "template": {
+        "spec": {
+          "nodeSelector": {
+            "banking-worker": "true"
+          },
+          "topologySpreadConstraints": [
+            {
+              "maxSkew": 1,
+              "minDomains": 2,
+              "matchLabelKeys": [
+                "pod-template-hash"
+              ],
+              "topologyKey": "kubernetes.io/hostname",
+              "whenUnsatisfiable": "DoNotSchedule",
+              "labelSelector": {
+                "matchLabels": {
+                  "app.kubernetes.io/name": "cloudnative-pg"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

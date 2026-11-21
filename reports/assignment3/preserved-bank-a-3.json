@@ -1,0 +1,10 @@
+{
+  "created_utc": "2026-11-15T07:53:37.528551+00:00",
+  "status": "PASS",
+  "scope": "cold preservation only; not a healthy standby restore",
+  "archive": "reports\\assignment3\\private\\bank-a-3-retained-20261115.tar.gz",
+  "sha256": "9c09b85b8efd70c80e359b0a23dc1428a6c13931b4c0583da8982fd85934bee3",
+  "pvc_uid": "a5d0240d-aa39-4f76-9975-a0334361e323",
+  "pv_uid": "812fc562-f708-4ee8-b121-23ef6fb3c053",
+  "data_unchanged": true
+}

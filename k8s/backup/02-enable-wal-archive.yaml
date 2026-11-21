@@ -1,0 +1,156 @@
+# Requires Barman Cloud CNPG-I plugin and k8s/backup/01-objectstores.yaml first.
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: bank-a
+  namespace: banking
+spec:
+  instances: 3
+  smartShutdownTimeout: 0
+  imageName: ghcr.io/cloudnative-pg/postgresql:17-minimal-trixie
+  bootstrap:
+    initdb:
+      database: bank
+      owner: bank
+      secret:
+        name: bank-db-credentials
+  storage:
+    size: 2Gi
+    storageClass: local-path
+  affinity:
+    enablePodAntiAffinity: true
+    podAntiAffinityType: preferred
+    topologyKey: kubernetes.io/hostname
+    nodeSelector:
+      banking-worker: 'true'
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: '1'
+      memory: 768Mi
+  postgresql:
+    parameters:
+      max_prepared_transactions: '100'
+      tcp_keepalives_idle: '5'
+      tcp_keepalives_interval: '2'
+      tcp_keepalives_count: '3'
+      tcp_user_timeout: '10000'
+      idle_session_timeout: '45s'
+      client_connection_check_interval: '1s'
+      max_connections: '150'
+    synchronous:
+      method: any
+      number: 2
+      dataDurability: required
+      failoverQuorum: true
+  plugins:
+  - name: barman-cloud.cloudnative-pg.io
+    isWALArchiver: true
+    parameters:
+      barmanObjectName: bank-a-store
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: bank-b
+  namespace: banking
+spec:
+  instances: 3
+  smartShutdownTimeout: 0
+  imageName: ghcr.io/cloudnative-pg/postgresql:17-minimal-trixie
+  bootstrap:
+    initdb:
+      database: bank
+      owner: bank
+      secret:
+        name: bank-db-credentials
+  storage:
+    size: 2Gi
+    storageClass: local-path
+  affinity:
+    enablePodAntiAffinity: true
+    podAntiAffinityType: preferred
+    topologyKey: kubernetes.io/hostname
+    nodeSelector:
+      banking-worker: 'true'
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: '1'
+      memory: 768Mi
+  postgresql:
+    parameters:
+      max_prepared_transactions: '100'
+      tcp_keepalives_idle: '5'
+      tcp_keepalives_interval: '2'
+      tcp_keepalives_count: '3'
+      tcp_user_timeout: '10000'
+      idle_session_timeout: '45s'
+      client_connection_check_interval: '1s'
+      max_connections: '150'
+    synchronous:
+      method: any
+      number: 2
+      dataDurability: required
+      failoverQuorum: true
+  plugins:
+  - name: barman-cloud.cloudnative-pg.io
+    isWALArchiver: true
+    parameters:
+      barmanObjectName: bank-b-store
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: bank-meta
+  namespace: banking
+spec:
+  instances: 3
+  smartShutdownTimeout: 0
+  imageName: ghcr.io/cloudnative-pg/postgresql:17-minimal-trixie
+  bootstrap:
+    initdb:
+      database: bank
+      owner: bank
+      secret:
+        name: bank-db-credentials
+  storage:
+    size: 2Gi
+    storageClass: local-path
+  affinity:
+    enablePodAntiAffinity: true
+    podAntiAffinityType: preferred
+    topologyKey: kubernetes.io/hostname
+    nodeSelector:
+      banking-worker: 'true'
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: '1'
+      memory: 768Mi
+  postgresql:
+    parameters:
+      max_prepared_transactions: '100'
+      tcp_keepalives_idle: '5'
+      tcp_keepalives_interval: '2'
+      tcp_keepalives_count: '3'
+      tcp_user_timeout: '10000'
+      idle_session_timeout: '45s'
+      client_connection_check_interval: '1s'
+      max_connections: '150'
+    synchronous:
+      method: any
+      number: 2
+      dataDurability: required
+      failoverQuorum: true
+  plugins:
+  - name: barman-cloud.cloudnative-pg.io
+    isWALArchiver: true
+    parameters:
+      barmanObjectName: bank-meta-store

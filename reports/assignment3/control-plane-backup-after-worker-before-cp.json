@@ -1,0 +1,31 @@
+{
+  "created_utc": "2026-11-15T12:48:22.149076+00:00",
+  "status": "PARTIAL",
+  "endpoint_health": "https://127.0.0.1:2379 is healthy: successfully committed proposal: took = 22.746039ms",
+  "etcd_version": "etcdutl version: 3.6.8\nAPI version: 3.6",
+  "snapshot_status": {
+    "hash": 1498957473,
+    "revision": 274065,
+    "totalKey": 1706,
+    "totalSize": 64864256,
+    "version": "3.6.0"
+  },
+  "archive": "reports\\assignment3\\private\\control-plane-after-worker-before-cp.tar.gz.enc",
+  "archive_sha256": "b2dd0ab2d90f9038a609a0af2a6ffbea84a51543537d17a3e2f6b6458b68b0ae",
+  "control_plane_node": "ubuntuserver-vmware-virtual-platform",
+  "kubeadm_version": "v1.36.6",
+  "off_vm_location": "Windows Host",
+  "original_cluster_uids": {
+    "bank-a": "c8388198-2533-4e1d-975c-c7ef865473a3",
+    "bank-b": "369dab91-0233-4a17-98f5-ec9c7dae400e",
+    "bank-meta": "6d455f42-554c-403b-a6b9-ccfecfebf43d"
+  },
+  "off_vm_restore_probe": "snapshot.db: OK\ncontrol-plane.tar: OK\n{\"hash\":1498957473,\"revision\":274065,\"totalKey\":1706,\"totalSize\":64864256,\"version\":\"3.6.0\"}\nPASS: snapshot hash, restore probe and required config members verified. No live state changed.",
+  "checks": {
+    "etcd_snapshot_hash_valid": true,
+    "off_vm_decrypt_and_restore_probe": true,
+    "required_pki_and_kubelet_files_present": true,
+    "full_control_plane_loss_experiment": false
+  },
+  "kubeconfig_file": "isolated-kubeconfig.yaml"
+}

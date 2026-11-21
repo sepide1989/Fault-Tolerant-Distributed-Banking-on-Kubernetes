@@ -1,0 +1,36 @@
+{
+  "created_utc": "2026-11-15T09:53:46.945564+00:00",
+  "status": "PARTIAL",
+  "image": "banking-app:v3-recovery-20261115-3",
+  "before": {
+    "gateway": {
+      "replicas": 2,
+      "uid": "711ef542-f7f2-4013-8813-4dd69a5819fb",
+      "images": {
+        "gateway": "banking-app:v3-recovery-20261115-2"
+      }
+    },
+    "bank-a": {
+      "replicas": 3,
+      "uid": "4e84fd8e-5a8f-4ad6-bda3-0cfb065f443f",
+      "images": {
+        "bank": "banking-app:v3-recovery-20261115-2"
+      }
+    },
+    "bank-b": {
+      "replicas": 2,
+      "uid": "b1f52c2d-a242-4289-9369-f0771de3e223",
+      "images": {
+        "bank": "banking-app:v3-recovery-20261115-2"
+      }
+    },
+    "coordinator-recovery": {
+      "replicas": 2,
+      "uid": "9aeda002-3be3-4cba-aa22-b214b1b6f406",
+      "images": {
+        "recovery": "banking-app:v3-recovery-20261115-2"
+      }
+    }
+  },
+  "note": "image rolled out; full DB audit and restore proof still required"
+}

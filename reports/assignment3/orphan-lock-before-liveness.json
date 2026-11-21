@@ -1,0 +1,24 @@
+{
+  "created_utc": "2026-11-15T08:18:57.320455+00:00",
+  "status": "PARTIAL",
+  "sessions": [
+    {
+      "pid": 91074,
+      "client_addr": "10.244.86.207/32",
+      "state": "idle",
+      "wait_event": "ClientRead",
+      "backend_start": "2026-11-15T08:09:36.575142+00:00",
+      "state_change": "2026-11-15T08:09:37.061305+00:00",
+      "query": "COMMIT"
+    },
+    {
+      "pid": 94220,
+      "client_addr": null,
+      "state": "active",
+      "wait_event": null,
+      "backend_start": "2026-11-15T08:18:57.571884+00:00",
+      "state_change": "2026-11-15T08:18:57.575556+00:00",
+      "query": "SELECT COALESCE(json_agg(q),'[]'::json) FROM (SELECT a.pid,client_addr::text,state,wait_event,backen"
+    }
+  ]
+}

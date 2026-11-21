@@ -1,0 +1,16 @@
+{
+  "created_utc": "2026-11-20T09:27:16.785462+00:00",
+  "status": "PARTIAL",
+  "role": "worker",
+  "vmx": "C:\\Users\\Surface Studio\\Documents\\Virtual Machines\\Banking_DR_Isolated_b2repeat-20261120\\replacements\\worker\\replacement-worker.vmx",
+  "hostname": "banking-worker-replacement-1",
+  "source_os": "C:\\Users\\Surface Studio\\Documents\\Virtual Machines\\ServerC\\ServerC.vmx",
+  "recovery_data_source": "surviving database replicas / separately verified etcd archive",
+  "preparation": "Prepared clean replacement; source cluster identity/data quarantined.",
+  "hardware_identities": [
+    "4b0d4d56-7408-1f08-c288-ad70c3c07e0a",
+    "564d0d4b-0874-081f-c288-ad70c3c07e0a"
+  ],
+  "note": "OS replacement prepared, not joined/restored. Banking correctness requires the actual permanent-loss experiment.",
+  "kubeconfig_file": "isolated-kubeconfig.yaml"
+}

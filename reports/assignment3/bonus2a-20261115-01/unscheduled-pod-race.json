@@ -1,0 +1,422 @@
+{
+  "created_utc": "2026-11-15T12:30:08.524841+00:00",
+  "status": "PARTIAL",
+  "pod": {
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "metadata": {
+      "creationTimestamp": "2026-11-15T12:24:37Z",
+      "generation": 1,
+      "labels": {
+        "app.kubernetes.io/component": "database",
+        "app.kubernetes.io/instance": "bank-a",
+        "app.kubernetes.io/managed-by": "cloudnative-pg",
+        "app.kubernetes.io/name": "postgresql",
+        "app.kubernetes.io/version": "17",
+        "cnpg.io/cluster": "bank-a",
+        "cnpg.io/instanceName": "bank-a-4",
+        "cnpg.io/podRole": "instance"
+      },
+      "name": "bank-a-4",
+      "namespace": "banking",
+      "ownerReferences": [
+        {
+          "apiVersion": "postgresql.cnpg.io/v1",
+          "blockOwnerDeletion": true,
+          "controller": true,
+          "kind": "Cluster",
+          "name": "bank-a",
+          "uid": "c8388198-2533-4e1d-975c-c7ef865473a3"
+        }
+      ],
+      "resourceVersion": "261055",
+      "uid": "59d699f1-7770-4668-b541-61f73db262e7"
+    },
+    "spec": {
+      "affinity": {
+        "podAntiAffinity": {
+          "preferredDuringSchedulingIgnoredDuringExecution": [
+            {
+              "podAffinityTerm": {
+                "labelSelector": {
+                  "matchExpressions": [
+                    {
+                      "key": "cnpg.io/cluster",
+                      "operator": "In",
+                      "values": [
+                        "bank-a"
+                      ]
+                    },
+                    {
+                      "key": "cnpg.io/podRole",
+                      "operator": "In",
+                      "values": [
+                        "instance"
+                      ]
+                    }
+                  ]
+                },
+                "topologyKey": "kubernetes.io/hostname"
+              },
+              "weight": 100
+            }
+          ]
+        }
+      },
+      "containers": [
+        {
+          "command": [
+            "/controller/manager",
+            "instance",
+            "run",
+            "--status-port-tls",
+            "--log-level=info"
+          ],
+          "image": "ghcr.io/cloudnative-pg/postgresql:17-minimal-trixie",
+          "imagePullPolicy": "IfNotPresent",
+          "livenessProbe": {
+            "failureThreshold": 3,
+            "httpGet": {
+              "path": "/healthz",
+              "port": 8000,
+              "scheme": "HTTPS"
+            },
+            "periodSeconds": 10,
+            "successThreshold": 1,
+            "timeoutSeconds": 5
+          },
+          "name": "postgres",
+          "ports": [
+            {
+              "containerPort": 5432,
+              "name": "postgresql",
+              "protocol": "TCP"
+            },
+            {
+              "containerPort": 9187,
+              "name": "metrics",
+              "protocol": "TCP"
+            },
+            {
+              "containerPort": 8000,
+              "name": "status",
+              "protocol": "TCP"
+            }
+          ],
+          "readinessProbe": {
+            "failureThreshold": 3,
+            "httpGet": {
+              "path": "/readyz",
+              "port": 8000,
+              "scheme": "HTTPS"
+            },
+            "periodSeconds": 10,
+            "successThreshold": 1,
+            "timeoutSeconds": 5
+          },
+          "resources": {
+            "limits": {
+              "cpu": "1",
+              "memory": "768Mi"
+            },
+            "requests": {
+              "cpu": "100m",
+              "memory": "256Mi"
+            }
+          },
+          "securityContext": {
+            "allowPrivilegeEscalation": false,
+            "capabilities": {
+              "drop": [
+                "ALL"
+              ]
+            },
+            "privileged": false,
+            "readOnlyRootFilesystem": true,
+            "runAsNonRoot": true,
+            "seccompProfile": {
+              "type": "RuntimeDefault"
+            }
+          },
+          "startupProbe": {
+            "failureThreshold": 360,
+            "httpGet": {
+              "path": "/startupz",
+              "port": 8000,
+              "scheme": "HTTPS"
+            },
+            "periodSeconds": 10,
+            "successThreshold": 1,
+            "timeoutSeconds": 5
+          },
+          "terminationMessagePath": "/dev/termination-log",
+          "terminationMessagePolicy": "File",
+          "volumeMounts": [
+            {
+              "mountPath": "/var/lib/postgresql/data",
+              "name": "pgdata"
+            },
+            {
+              "mountPath": "/run",
+              "name": "scratch-data"
+            },
+            {
+              "mountPath": "/controller",
+              "name": "scratch-data"
+            },
+            {
+              "mountPath": "/dev/shm",
+              "name": "shm"
+            },
+            {
+              "mountPath": "/plugins",
+              "name": "plugins"
+            },
+            {
+              "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+              "name": "kube-api-access-4x5tg",
+              "readOnly": true
+            }
+          ]
+        }
+      ],
+      "dnsPolicy": "ClusterFirst",
+      "enableServiceLinks": true,
+      "hostname": "bank-a-4",
+      "initContainers": [
+        {
+          "command": [
+            "/manager",
+            "bootstrap",
+            "/controller/manager",
+            "--log-level=info"
+          ],
+          "image": "ghcr.io/cloudnative-pg/cloudnative-pg:1.30.1",
+          "imagePullPolicy": "IfNotPresent",
+          "name": "bootstrap-controller",
+          "resources": {
+            "limits": {
+              "cpu": "1",
+              "memory": "768Mi"
+            },
+            "requests": {
+              "cpu": "100m",
+              "memory": "256Mi"
+            }
+          },
+          "securityContext": {
+            "allowPrivilegeEscalation": false,
+            "capabilities": {
+              "drop": [
+                "ALL"
+              ]
+            },
+            "privileged": false,
+            "readOnlyRootFilesystem": true,
+            "runAsNonRoot": true,
+            "seccompProfile": {
+              "type": "RuntimeDefault"
+            }
+          },
+          "terminationMessagePath": "/dev/termination-log",
+          "terminationMessagePolicy": "File",
+          "volumeMounts": [
+            {
+              "mountPath": "/var/lib/postgresql/data",
+              "name": "pgdata"
+            },
+            {
+              "mountPath": "/run",
+              "name": "scratch-data"
+            },
+            {
+              "mountPath": "/controller",
+              "name": "scratch-data"
+            },
+            {
+              "mountPath": "/dev/shm",
+              "name": "shm"
+            },
+            {
+              "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+              "name": "kube-api-access-4x5tg",
+              "readOnly": true
+            }
+          ]
+        },
+        {
+          "args": [
+            "instance"
+          ],
+          "image": "ghcr.io/cloudnative-pg/plugin-barman-cloud-sidecar:v0.16.0",
+          "imagePullPolicy": "IfNotPresent",
+          "name": "plugin-barman-cloud",
+          "resources": {},
+          "restartPolicy": "Always",
+          "securityContext": {
+            "allowPrivilegeEscalation": false,
+            "capabilities": {
+              "drop": [
+                "ALL"
+              ]
+            },
+            "privileged": false,
+            "readOnlyRootFilesystem": true,
+            "runAsNonRoot": true,
+            "seccompProfile": {
+              "type": "RuntimeDefault"
+            }
+          },
+          "startupProbe": {
+            "exec": {
+              "command": [
+                "/manager",
+                "healthcheck",
+                "unix"
+              ]
+            },
+            "failureThreshold": 30,
+            "periodSeconds": 1,
+            "successThreshold": 1,
+            "timeoutSeconds": 5
+          },
+          "terminationMessagePath": "/dev/termination-log",
+          "terminationMessagePolicy": "File",
+          "volumeMounts": [
+            {
+              "mountPath": "/var/lib/postgresql/data",
+              "name": "pgdata"
+            },
+            {
+              "mountPath": "/controller",
+              "name": "scratch-data"
+            },
+            {
+              "mountPath": "/dev/shm",
+              "name": "shm"
+            },
+            {
+              "mountPath": "/plugins",
+              "name": "plugins"
+            },
+            {
+              "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+              "name": "kube-api-access-4x5tg",
+              "readOnly": true
+            }
+          ]
+        }
+      ],
+      "nodeSelector": {
+        "banking-worker": "true"
+      },
+      "preemptionPolicy": "PreemptLowerPriority",
+      "priority": 0,
+      "restartPolicy": "Always",
+      "schedulerName": "default-scheduler",
+      "securityContext": {
+        "fsGroup": 26,
+        "runAsGroup": 26,
+        "runAsNonRoot": true,
+        "runAsUser": 26,
+        "seccompProfile": {
+          "type": "RuntimeDefault"
+        }
+      },
+      "serviceAccount": "bank-a",
+      "serviceAccountName": "bank-a",
+      "terminationGracePeriodSeconds": 1800,
+      "tolerations": [
+        {
+          "effect": "NoExecute",
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "tolerationSeconds": 300
+        },
+        {
+          "effect": "NoExecute",
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "tolerationSeconds": 300
+        }
+      ],
+      "volumes": [
+        {
+          "name": "pgdata",
+          "persistentVolumeClaim": {
+            "claimName": "bank-a-4"
+          }
+        },
+        {
+          "emptyDir": {},
+          "name": "scratch-data"
+        },
+        {
+          "emptyDir": {
+            "medium": "Memory"
+          },
+          "name": "shm"
+        },
+        {
+          "emptyDir": {},
+          "name": "plugins"
+        },
+        {
+          "name": "kube-api-access-4x5tg",
+          "projected": {
+            "defaultMode": 420,
+            "sources": [
+              {
+                "serviceAccountToken": {
+                  "expirationSeconds": 3607,
+                  "path": "token"
+                }
+              },
+              {
+                "configMap": {
+                  "items": [
+                    {
+                      "key": "ca.crt",
+                      "path": "ca.crt"
+                    }
+                  ],
+                  "name": "kube-root-ca.crt"
+                }
+              },
+              {
+                "downwardAPI": {
+                  "items": [
+                    {
+                      "fieldRef": {
+                        "apiVersion": "v1",
+                        "fieldPath": "metadata.namespace"
+                      },
+                      "path": "namespace"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "status": {
+      "conditions": [
+        {
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-15T12:24:37Z",
+          "message": "0/3 nodes are available: persistentvolumeclaim \"bank-a-4\" not found. not found",
+          "observedGeneration": 1,
+          "reason": "Unschedulable",
+          "status": "False",
+          "type": "PodScheduled"
+        }
+      ],
+      "phase": "Pending",
+      "qosClass": "Burstable"
+    }
+  },
+  "reason": "controller recreated an unscheduled pod between old pod deletion and old claim deletion; it has no bound data",
+  "kubeconfig_file": "isolated-kubeconfig.yaml"
+}

@@ -1,0 +1,59 @@
+{
+  "created_utc": "2026-11-20T10:47:33.104742+00:00",
+  "status": "FAIL",
+  "clusters": {
+    "bank-a": {
+      "restore_name": "bank-a-dr-r2c201126",
+      "source_primary": "bank-a-2",
+      "restore_point": "banking_dr_r2c201126_bank_a_c0547e6c",
+      "cutoff_lsn": "0/6A000090",
+      "archived_wal": "00000010000000000000006A",
+      "matches": {
+        "public_table_set": true,
+        "accounts": true,
+        "local_requests": true,
+        "migration_applied": true,
+        "migration_cursor": true,
+        "migration_outbox": true,
+        "ownership": true,
+        "participant_fences": true,
+        "participant_results": true
+      },
+      "restore_pg": {
+        "standby": false,
+        "synchronous_commit": "on",
+        "sync_names": "",
+        "max_prepared": 100,
+        "fsync": "on",
+        "system_id": "7707367486795997204",
+        "timeline": 17,
+        "lsn": "0/6E0397B8",
+        "replication": [],
+        "wal_receiver": [],
+        "slots": [],
+        "prepared": [],
+        "sync_waiters": 0,
+        "archiver": {
+          "archived_count": 3,
+          "failed_count": 5,
+          "last_archived_wal": "00000011000000000000006C",
+          "last_archived_time": "2026-11-20T10:49:25.927186+00:00",
+          "last_failed_time": "2026-11-20T10:48:58.986359+00:00"
+        }
+      }
+    },
+    "bank-b": {
+      "restore_name": "bank-b-dr-r2c201126",
+      "source_primary": "bank-b-1",
+      "restore_point": "banking_dr_r2c201126_bank_b_77ab222e"
+    }
+  },
+  "cluster_uids": {
+    "bank-a": "c8388198-2533-4e1d-975c-c7ef865473a3",
+    "bank-b": "369dab91-0233-4a17-98f5-ec9c7dae400e"
+  },
+  "audit_sha256": "0b9382e70939e6f0be462de166d2bd2dd2a822a9a669b0bf3fde46acf688ab41",
+  "source_ha_was_degraded": false,
+  "error": "error: timed out waiting for the condition on clusters/bank-b-dr-r2c201126",
+  "kubeconfig_file": "isolated-kubeconfig.yaml"
+}
